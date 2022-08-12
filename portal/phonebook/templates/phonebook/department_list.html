@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Департаменты{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <h1>Департаменты</h1>
+        <p class="lead">Здесь департаменты</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-primary">
+            <tr>
+                <th>#</th>
+                <th>Департамент</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for department in departments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ department.department }}</td>
+                <td><a class="btn btn-sm btn-danger" href="{% url 'delete_department' department.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="mt-4"><strong>Note:</strong> Change the editor layout/orientation to see how responsive table works.
+        </p>
+    </div>
+</div>
+
+    {% endblock %}
+
+
+

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block title %}Добавление департамента{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3 center">
+        <h1>Форма добавления департаментов</h1>
+        <p class="lead">Добавьте департамент</p>
+    </div>
+
+    <div class="container-form mt-5">
+
+        <form class="needs-validation" method="post" id="employeesForm" novalidate>
+
+            {% csrf_token %}
+
+            <div class="form-error">{{ form.non_field_errors }}</div>
+
+            {% for f in form %}
+
+                <div class="row mb-4">
+                    <label class="col-sm-2 col-form-label" for="f.id_for_label">{{ f.label }} :</label>
+                    <div class="col-sm-10">{{ f }}</div>
+                    {% if f.errors %}
+                    {{ f.errors }}
+                    {% endif %}
+                </div>
+
+            {% endfor %}
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-secondary">Добавить</button>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}

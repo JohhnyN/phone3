@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Департаменты{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <h1>Департаменты</h1>
+        <p class="lead">Удаление департамента</p>
+    </div>
+
+    <div class="container mt-5">
+
+        <div class="col-5 mx-auto">
+
+            <div class="card text-center text-white bg-danger mb-4">
+                <div class="card-body">
+
+                    <h5 class="card-title">Вы уверены, что хотите удалить "{{department}}" ?</h5>
+                    <p class="card-text">Это не действие необратимо.</p>
+
+                    <form action="{% url 'delete_department' department.id  %}" method="POST">
+                        {% if error %}
+        {{ error }}
+                        {% endif %}
+                        {% csrf_token %}
+                        <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Нет</a>
+                        <button type="submit" class="btn btn-outline-dark w-25"><i class="bi-trash"></i>Удалить</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}>

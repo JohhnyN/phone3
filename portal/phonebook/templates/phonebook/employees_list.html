@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Телефонная книга{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <h1>Телефонная книга</h1>
+        <p class="lead">Здесь ФИО, телефоны, должности, отделы</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover text-center">
+            <thead class="table-primary">
+            <tr>
+                <th>ФИО</th>
+                <th>Должность</th>
+                <th>Департамент</th>
+                <th>Отдел</th>
+                <th>Email</th>
+                <th>Сотовый телефон</th>
+                <th>Телефон</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for employ in employees %}
+            <tr>
+                <td>{{ employ.fio }}</td>
+                <td>{{ employ.position }}</td>
+                <td>{{ employ.department }}</td>
+                {% if employ.division is not none %}
+                <td>{{ employ.division }}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                {% if employ.email is not none %}
+                <td>{{ employ.email }}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                {% if employ.cellphone is not none %}
+                <td class="table-cell">{{ employ.cellphone }}</td>
+                 {% else %}
+                <td></td>
+                {% endif %}
+                {% if employ.phone is not none %}
+                <td class="table-phone">{{ employ.phone }}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="mt-4"><strong>Note:</strong> Change the editor layout/orientation to see how responsive table works.
+        </p>
+    </div>
+</div>
+
+    {% endblock %}
+
+
+
