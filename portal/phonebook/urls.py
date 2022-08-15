@@ -13,4 +13,8 @@ urlpatterns = [
     path('departments', views.DepartmentListView.as_view(), name='departments'),
     path('divisions', views.DivisionListView.as_view(), name='divisions'),
     path('delete_department/<pk>/', views.DepartmentDelete.as_view(), name="delete_department"),
+    path('delete_division/<pk>/', views.DivisionDeleteView.as_view(), name='delete_division'),
+    path('update_department/<pk>/', views.DepartmentUpdateView.as_view(), name='update_department'),
+    path('update_division/<pk>/', views.DivisionUpdateView.as_view(), name='update_division'),
 ]
+

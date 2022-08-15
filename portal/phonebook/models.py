@@ -25,11 +25,6 @@ class Department(models.Model):
         verbose_name_plural = 'Департаменты'
         ordering = ['department']
 
-    # def delete(self, *args, **kwargs):
-    #     if Division.objects.filter(department__pk=self.pk).exists():
-    #         raise Exception('Вы не можете удалить департамент, так как в нем есть отделы')  # or you can throw your custom exception here.
-    #     super(Department, self).delete(*args, **kwargs)
-
 
 class Division(models.Model):
     department = models.ForeignKey('Department', on_delete=models.PROTECT, verbose_name='Департамент',

@@ -5,9 +5,12 @@
 {% block content %}
 
 <div class="container mt-5">
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <h1>Департаменты</h1>
-        <p class="lead">Здесь департаменты</p>
+    <div class="p-5 mb-4 bg-light rounded-3 ">
+        <h1 class="d-flex justify-content-center">Департаменты</h1>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+         <a class="btn btn-sm btn-primary" href="{% url 'department_add' %}">Добавить департамент</a>
     </div>
 
     <div class="table-responsive">
@@ -24,17 +27,19 @@
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ department.department }}</td>
-                <td><a class="btn btn-sm btn-danger" href="{% url 'delete_department' department.id %}">Delete</a></td>
+                <td>
+                    <a class="btn btn-sm btn-warning" href="{% url 'update_department' department.id %}">Изменить</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'delete_department' department.id %}">Удалить</a>
+                </td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
-        <p class="mt-4"><strong>Note:</strong> Change the editor layout/orientation to see how responsive table works.
-        </p>
+
     </div>
 </div>
 
-    {% endblock %}
+{% endblock %}
 
 
 

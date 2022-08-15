@@ -6,21 +6,21 @@
 
 <div class="container mt-5">
     <div class="p-5 mb-4 bg-light rounded-3">
-        <h1>Департаменты</h1>
-        <p class="lead">Удаление департамента</p>
+        <h1>Отделы</h1>
+        <p class="lead">Удаление отдела</p>
     </div>
 
     <div class="container mt-5">
 
         <div class="col-5 mx-auto">
 
-            {% if department.division.exists %}
+            {% if division.employees.exists %}
 
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы не можете удалить {{department}}, так как в нем существуют отделы</h5>
-                    <p class="card-text">Перед удалением департамента {{ depatment }} необходимо удалить отделы</p>
+                    <h5 class="card-title">Вы не можете удалить {{division}}, так как в нем существуют сотрудники</h5>
+                    <p class="card-text">Перед удалением департамента {{ division }} необходимо удалить сотрудников</p>
                     <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Назад</a>
 
                 </div>
@@ -31,14 +31,14 @@
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы уверены, что хотите удалить "{{department}}" ?</h5>
+                    <h5 class="card-title">Вы уверены, что хотите удалить "{{division}}" ?</h5>
                     <p class="card-text">Это не действие необратимо.</p>
 
 
-                    <form action="{% url 'delete_department' department.id  %}" method="POST">
+                    <form action="{% url 'delete_division' division.id  %}" method="POST">
 
                         {% csrf_token %}
-                        <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Нет</a>
+                        <a class="btn btn-warning w-25 me-2" href="{% url 'divisions' %}">Нет</a>
                         <button type="submit" class="btn btn-outline-dark w-25"><i class="bi-trash"></i>Удалить</button>
 
                     </form>

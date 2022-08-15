@@ -1,14 +1,8 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import ProtectedError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
+from django.shortcuts import render
 
-# Create your views here.
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DeleteView
-from .models import *
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from .forms import *
 
 
@@ -50,20 +44,15 @@ class DepartmentCreateView(CreateView):
     success_url = reverse_lazy('departments')
 
 
+class DepartmentUpdateView(UpdateView):
+    model = Department
+    form_class = DepartmentForm
+    success_url = reverse_lazy('departments')
+
+
 class DepartmentDelete(DeleteView):
     model = Department
     success_url = reverse_lazy('departments')
-    error_url = reverse_lazy('departments')
-
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        error_url = self.get_error_url()
-        try:
-            self.object.delete()
-            return HttpResponseRedirect(success_url)
-        except models.deletion.ProtectedError:
-            return HttpResponseRedirect(error_url)
 
 
 class DivisionListView(ListView):
@@ -74,4 +63,16 @@ class DivisionListView(ListView):
 class DivisionCreateView(CreateView):
     model = Division
     form_class = DivisionForm
-    success_url = reverse_lazy('phonebook')
+    success_url = reverse_lazy('divisions')
+
+
+class DivisionDeleteView(DeleteView):
+    model = Division
+    success_url = reverse_lazy('divisions')
+
+
+class DivisionUpdateView(UpdateView):
+    model = Division
+    form_class = DivisionForm
+    success_url = reverse_lazy('divisions')
+
