@@ -9,6 +9,13 @@
         <h1 class="d-flex justify-content-center">Департаменты</h1>
     </div>
 
+    <form action="" method="get" class="">
+        <div class="form-control input-group mb-5">
+            <input type="text" class="form-control form-control-lg" placeholder="Поиск" name="q">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Поиск</button>
+        </div>
+    </form>
+
     {% if perms.phonebook.add_department %}
     <div class="d-flex justify-content-end mb-3">
          <a class="btn btn-sm btn-primary" href="{% url 'department_add' %}">Добавить департамент</a>
@@ -22,7 +29,7 @@
                 <th>#</th>
                 <th>Департамент</th>
 
-                {% if perms.phonebook.change_department or perms.phonebook.delete_department %}<th></th>{%endif%}
+                {% if perms.phonebook.change_department or perms.phonebook.delete_department %}<th style="width: 15%"></th>{%endif%}
 
             </tr>
             </thead>

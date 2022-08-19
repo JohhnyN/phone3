@@ -9,6 +9,13 @@
         <h1 class="d-flex justify-content-center">Телефонная книга</h1>
     </div>
 
+    <form action="" method="get" class="">
+        <div class="form-control input-group mb-5">
+            <input type="text" class="form-control form-control-lg" placeholder="Поиск" name="q">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Поиск</button>
+        </div>
+    </form>
+
     {% if perms.phonebook.add_employees %}
     <div class="d-flex justify-content-end mb-3">
          <a class="btn btn-sm btn-primary" href="{% url 'employees_add' %}"><i class="bi bi-person-plus me-1"></i>Добавить сотрудника</a>
@@ -71,6 +78,7 @@
         </table>
 
     </div>
+
 </div>
 
     {% endblock %}

@@ -3,6 +3,7 @@ from urllib import request
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -13,6 +14,17 @@ from .forms import *
 class EmployeesListView(ListView):
     model = Employees
     context_object_name = 'employees'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            return qs.filter(Q(fio__icontains=query) |
+                             Q(position__icontains=query) |
+                             Q(department__department__icontains=query) |
+                             Q(division__division__icontains=query) |
+                             Q(phone__phone__icontains=query))
+        return Employees.objects.filter()
 
 
 class EmployeesCreateView(LoginRequiredMixin, CreateView):
@@ -39,9 +51,16 @@ class EmployeesDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('phonebook')
 
 
-class DepartmentListView(ListView):
+class DepartmentListView(LoginRequiredMixin, ListView):
     model = Department
     context_object_name = 'departments'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            return qs.filter(Q(department__icontains=query))
+        return Department.objects.filter()
 
 
 class DepartmentCreateView(LoginRequiredMixin, CreateView):
@@ -61,9 +80,17 @@ class DepartmentDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('departments')
 
 
-class DivisionListView(ListView):
+class DivisionListView(LoginRequiredMixin, ListView):
     model = Division
     context_object_name = 'divisions'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            return qs.filter(Q(division__icontains=query) |
+                             Q(department__department__icontains=query))
+        return Division.objects.filter()
 
 
 class DivisionCreateView(LoginRequiredMixin, CreateView):

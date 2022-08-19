@@ -45,4 +45,9 @@ tr:hover {
 	.navbar .nav-item:hover .nav-link{ color: #000;}}
 }
 
+:active, :hover, :focus {
+    outline: 0;
+    outline-offset: 0;
+}
+
 
