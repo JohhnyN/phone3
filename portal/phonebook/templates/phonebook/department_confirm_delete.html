@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Департаменты{% endblock %}
+{% block title %}Удаление департамента{% endblock %}
 
 {% block content %}
 
 <div class="container mt-5">
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <h1>Департаменты</h1>
-        <p class="lead">Удаление департамента</p>
+    <div class="p-5 mb-4 bg-light rounded-3 center">
+        <h1 class="d-flex justify-content-center">Департаменты</h1>
+        <p class="d-flex justify-content-center lead">Удаление департамента</p>
     </div>
 
     <div class="container mt-5">
@@ -19,8 +19,20 @@
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы не можете удалить {{department}}, так как в нем существуют отделы</h5>
+                    <h5 class="card-title">Вы не можете удалить <span class="fw-bold fs-4">{{department}}</span>, так как в нем существуют отделы</h5>
                     <p class="card-text">Перед удалением департамента {{ depatment }} необходимо удалить отделы</p>
+                    <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Назад</a>
+
+                </div>
+            </div>
+
+            {% elif department.employees.exists %}
+
+            <div class="card text-center text-white bg-danger mb-4">
+                <div class="card-body">
+
+                    <h5 class="card-title">Вы не можете удалить <span class="fw-bold fs-4">{{department}}</span>, так как в нем есть сотрудники</h5>
+                    <p class="card-text">Перед удалением департамента {{ depatment }} необходимо удалить сотрудников</p>
                     <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Назад</a>
 
                 </div>
@@ -31,7 +43,7 @@
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы уверены, что хотите удалить "{{department}}" ?</h5>
+                    <h5 class="card-title">Вы уверены, что хотите удалить <span class="fw-bold fs-4"> "{{department}}" </span> ?</h5>
                     <p class="card-text">Это не действие необратимо.</p>
 
 

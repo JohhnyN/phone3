@@ -19,8 +19,9 @@ tr:hover {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);}
 
 .errorlist {
-    color: red;
-    margin: 0;
+    margin: 0 auto;
+    padding: 0;
+    list-style-type: none;
     }
 
 
@@ -43,4 +44,5 @@ tr:hover {
 	.navbar .nav-item:hover .dropdown-menu{ transition: .3s; opacity:1; visibility:visible; top:100%; transform: rotateX(0deg); }
 	.navbar .nav-item:hover .nav-link{ color: #000;}}
 }
+
 

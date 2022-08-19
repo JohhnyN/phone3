@@ -6,9 +6,14 @@
 
 <div class="container mt-5">
     <div class="p-5 mb-4 bg-light rounded-3">
-        <h1>Телефонная книга</h1>
-        <p class="lead">Здесь ФИО, телефоны, должности, отделы</p>
+        <h1 class="d-flex justify-content-center">Телефонная книга</h1>
     </div>
+
+    {% if perms.phonebook.add_employees %}
+    <div class="d-flex justify-content-end mb-3">
+         <a class="btn btn-sm btn-primary" href="{% url 'employees_add' %}"><i class="bi bi-person-plus me-1"></i>Добавить сотрудника</a>
+    </div>
+    {% endif %}
 
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover text-center">
@@ -21,6 +26,7 @@
                 <th>Email</th>
                 <th>Сотовый телефон</th>
                 <th>Телефон</th>
+                {% if perms.phonebook.change_employees or perms.phonebook.delete_employees %}<th></th>{% endif %}
             </tr>
             </thead>
             <tbody>
@@ -49,12 +55,21 @@
                 {% else %}
                 <td></td>
                 {% endif %}
+                {% if perms.phonebook.change_employees or perms.phonebook.delete_employees %}
+                <td>
+                    {% if perms.phonebook.change_employees %}
+                    <a class="btn btn-sm btn-warning mb-2 w-100" href="{% url 'update_employees' employ.id %}">Изменить</a>
+                    {% endif %}
+                    {% if perms.phonebook.delete_employees %}
+                    <a class="btn btn-sm btn-danger w-100" href="{% url 'delete_employees' employ.id %}">Удалить</a>
+                    {% endif %}
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
             </tbody>
         </table>
-        <p class="mt-4"><strong>Note:</strong> Change the editor layout/orientation to see how responsive table works.
-        </p>
+
     </div>
 </div>
 

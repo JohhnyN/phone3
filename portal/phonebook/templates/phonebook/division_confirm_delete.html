@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Департаменты{% endblock %}
+{% block title %}Удаление отдела{% endblock %}
 
 {% block content %}
 
 <div class="container mt-5">
     <div class="p-5 mb-4 bg-light rounded-3">
-        <h1>Отделы</h1>
-        <p class="lead">Удаление отдела</p>
+        <h1 class="d-flex justify-content-center">Отделы</h1>
+        <p class="d-flex justify-content-center lead">Удаление отдела</p>
     </div>
 
     <div class="container mt-5">
@@ -19,7 +19,7 @@
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы не можете удалить {{division}}, так как в нем существуют сотрудники</h5>
+                    <h5 class="card-title">Вы не можете удалить <span class="fw-bold fs-4">{{division}}</span>, так как в нем существуют сотрудники</h5>
                     <p class="card-text">Перед удалением департамента {{ division }} необходимо удалить сотрудников</p>
                     <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Назад</a>
 
@@ -31,7 +31,7 @@
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы уверены, что хотите удалить "{{division}}" ?</h5>
+                    <h5 class="card-title">Вы уверены, что хотите удалить <span class="fw-bold fs-4">"{{ division }}"</span> ?</h5>
                     <p class="card-text">Это не действие необратимо.</p>
 
 

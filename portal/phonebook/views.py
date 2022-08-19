@@ -1,19 +1,13 @@
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import render
+import http
+from urllib import request
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.http import Http404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from .forms import *
-
-
-class PermissionMixin(object):
-
-    def get_object(self, *args, **kwargs):
-        obj = super(PermissionMixin, self).get_object(*args, **kwargs)
-        if not obj.created_by == self.request.user:
-            raise PermissionDenied()
-        else:
-            return obj
 
 
 class EmployeesListView(ListView):
@@ -21,7 +15,7 @@ class EmployeesListView(ListView):
     context_object_name = 'employees'
 
 
-class EmployeesCreateView(CreateView):
+class EmployeesCreateView(LoginRequiredMixin, CreateView):
     model = Employees
     form_class = EmployeesForm
     success_url = reverse_lazy('phonebook')
@@ -33,24 +27,36 @@ def load_division(request):
     return render(request, 'phonebook/division_dropdown_list_options.html', {'divisions': divisions})
 
 
+class EmployeesUpdateView(LoginRequiredMixin, UpdateView):
+    model = Employees
+    initial = {'department': '', 'division': '', }
+    form_class = EmployeesUpdateForm
+    success_url = reverse_lazy('phonebook')
+
+
+class EmployeesDelete(LoginRequiredMixin, DeleteView):
+    model = Employees
+    success_url = reverse_lazy('phonebook')
+
+
 class DepartmentListView(ListView):
     model = Department
     context_object_name = 'departments'
 
 
-class DepartmentCreateView(CreateView):
+class DepartmentCreateView(LoginRequiredMixin, CreateView):
     model = Department
     form_class = DepartmentForm
     success_url = reverse_lazy('departments')
 
 
-class DepartmentUpdateView(UpdateView):
+class DepartmentUpdateView(LoginRequiredMixin, UpdateView):
     model = Department
     form_class = DepartmentForm
     success_url = reverse_lazy('departments')
 
 
-class DepartmentDelete(DeleteView):
+class DepartmentDelete(LoginRequiredMixin, DeleteView):
     model = Department
     success_url = reverse_lazy('departments')
 
@@ -60,19 +66,19 @@ class DivisionListView(ListView):
     context_object_name = 'divisions'
 
 
-class DivisionCreateView(CreateView):
+class DivisionCreateView(LoginRequiredMixin, CreateView):
     model = Division
     form_class = DivisionForm
     success_url = reverse_lazy('divisions')
 
 
-class DivisionDeleteView(DeleteView):
+class DivisionUpdateView(LoginRequiredMixin, UpdateView):
     model = Division
+    form_class = DivisionUpdateForm
     success_url = reverse_lazy('divisions')
 
 
-class DivisionUpdateView(UpdateView):
+class DivisionDeleteView(LoginRequiredMixin, DeleteView):
     model = Division
-    form_class = DivisionForm
     success_url = reverse_lazy('divisions')
 

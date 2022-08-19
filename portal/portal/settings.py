@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'import_export',
     'crispy_forms',
-    "crispy_bootstrap5",
+    'crispy_bootstrap5',
+    'accounts.apps.AccountsConfig',
     'main.apps.MainConfig',
     'phonebook.apps.PhonebookConfig',
 ]
@@ -110,6 +112,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'ru'
+LANGUAGES = [
+    ('en', _('English')),
+    ('ru', _('Russian')),
+    ('zh-Hans', _('Simplified Chinese')),
+    ('fr', _('French')),
+    ('es', _('Spanish')),
+]
 
 TIME_ZONE = 'Asia/Almaty'
 
@@ -135,3 +144,18 @@ IMPORT_EXPORT_IMPORT_PERMISSION_CODE = ''
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
+
+# ENABLE_USER_ACTIVATION = True
+# DISABLE_USERNAME = False
+# LOGIN_VIA_EMAIL = False
+# LOGIN_VIA_EMAIL_OR_USERNAME = True
+# LOGIN_REDIRECT_URL = 'login'
+# # LOGIN_URL = 'accounts:log_in'
+# USE_REMEMBER_ME = False
+LOGOUT_REDIRECT_URL = 'home'
+
+SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']

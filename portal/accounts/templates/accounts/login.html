@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3 center">
+        <h1 class="d-flex justify-content-center">Страница входа</h1>
+        <p class="d-flex justify-content-center lead">Введите логин и пароль</p>
+    </div>
+
+
+    <div class="container-form mt-5">
+
+        <form class="needs-validation" method="post" id="employeesForm" novalidate>
+
+            {% csrf_token %}
+
+            {% for f in form %}
+
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">{{ f.label }}{% if f.field.required %} * {% endif %} :</label>
+                <div class="col-sm-10">{{ f }}</div>
+
+                {% if f.errors %}
+
+                <div class="alert alert-danger alert-dismissible fade show mt-2">
+                    <strong>{{f.errors}}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+
+        </form>
+
+        <form method="POST" action="{% url 'login' %}">
+
+            {% csrf_token %}
+
+
+            <div class="row mb-4">
+
+                <label class="col-sm-2 col-form-label">Логин :</label>
+                <div class="col-10 mb-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="username">
+                    </div>
+                </div>
+
+                <label class="col-sm-2 col-form-label">Пароль :</label>
+                <div class="col-10">
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-secondary">Добавить</button>
+            </div>
+
+            {% if error %}
+
+            <div class="alert alert-danger alert-dismissible fade show mt-2">
+                <strong>Логин или пароль неверны!</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

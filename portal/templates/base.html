@@ -30,21 +30,34 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="{% url 'phonebook' %}"><i class="bi bi-book me-1"></i>Phonebook</a>
                     </li>
+
+                    {% if perms.phonebook.add_department or perms.phonebook.change_department or perms.phonebook.delete_department %}
                     <li class="nav-item">
                         <a class="nav-link active" href="{% url 'departments' %}"><i class="bi bi-window me-1"></i>Департаменты</a>
                     </li>
-                     <li class="nav-item">
+                    {% endif %}
+
+                    {% if perms.phonebook.add_division or perms.phonebook.change_division or perms.phonebook.delete_division %}
+                    <li class="nav-item">
                         <a class="nav-link active" href="{% url 'divisions' %}"><i class="bi bi-window-dock me-1"></i>Отделы</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown">Добавить</a>
-                        <ul class="dropdown-menu fade-up">
-                            <li><a class="dropdown-item" href="{% url 'employees_add' %}"><i class="bi bi-person-plus me-2"></i>Сотрудника</a></li>
-                            <li><a class="dropdown-item" href="{% url 'department_add' %}"><i class="bi bi-clipboard-plus me-2"></i>Департамент</a></li>
-                            <li><a class="dropdown-item" href="{% url 'division_add' %}"><i class="bi bi-journal-plus me-2"></i>Отдел</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Contact</a></li>
+                    {% endif %}
+
+
+<!--                    <li class="nav-item dropdown">-->
+<!--                        <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown">Добавить</a>-->
+<!--                        <ul class="dropdown-menu fade-up">-->
+<!--                            <li><a class="dropdown-item" href="{% url 'employees_add' %}"><i class="bi bi-person-plus me-2"></i>Сотрудника</a></li>-->
+<!--                            <li><a class="dropdown-item" href="{% url 'department_add' %}"><i class="bi bi-clipboard-plus me-2"></i>Департамент</a></li>-->
+<!--                            <li><a class="dropdown-item" href="{% url 'division_add' %}"><i class="bi bi-journal-plus me-2"></i>Отдел</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Выход | {{ user.get_username }}</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'login' %}">Вход</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

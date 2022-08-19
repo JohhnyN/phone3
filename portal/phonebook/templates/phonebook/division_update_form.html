@@ -1,29 +1,24 @@
 {% extends 'base.html' %}
 
-
-{% block title %}
-{% if form.department.value %}
-Изменение департамента
-{% else %}
-Добавление департамента
-{% endif %}
-{% endblock %}
+{% block title %}Добавление департамента{% endblock %}
 
 {% block content %}
 
 <div class="container mt-5">
     <div class="p-5 mb-4 bg-light rounded-3 center">
+
         {% if form.department.value %}
-        <h1 class="d-flex justify-content-center">Форма изменения департамента </h1>
+        <h1 class="d-flex justify-content-center">Форма изменения отделов</h1>
         {% else %}
-        <h1 class="d-flex justify-content-center">Форма добавления департаментов </h1>
+        <h1 class="d-flex justify-content-center">Форма добавление отдела</h1>
         {% endif %}
         <p class="d-flex justify-content-center lead">Поля отмеченные звездочкой обязательны для заполнения</p>
     </div>
 
     <div class="container-form mt-5">
 
-        <form class="needs-validation" method="post" id="DepartmentForm" novalidate>
+        <form class="needs-validation" method="post" id="divisionForm"
+              data-division-url="{% url 'ajax_load_division" novalidate>
 
             {% csrf_token %}
 
@@ -46,14 +41,9 @@
 
             {% endfor %}
 
-            <div class="row">
-                    <div class="col-md-6">
-                        <a class="btn btn-warning w-100 me-2" href="{% url 'departments' %}">Отменить</a>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-secondary w-100">Добавить</button>
-                    </div>
-                </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-secondary">Добавить</button>
+            </div>
 
         </form>
     </div>
