@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container">
     <div class="p-5 mb-4 bg-light rounded-3">
         <h1 class="d-flex justify-content-center">Телефонная книга</h1>
     </div>
@@ -21,6 +21,9 @@
          <a class="btn btn-sm btn-primary" href="{% url 'employees_add' %}"><i class="bi bi-person-plus me-1"></i>Добавить сотрудника</a>
     </div>
     {% endif %}
+
+
+    <a href="{% url 'download_phonebook' %}">Скачать телефонный справочник</a>
 
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover text-center">
@@ -48,17 +51,17 @@
                 <td></td>
                 {% endif %}
                 {% if employ.email is not none %}
-                <td>{{ employ.email }}</td>
+                <td><a href="mailto:{{employ.email}}">{{ employ.email }}</a></td>
                 {% else %}
                 <td></td>
                 {% endif %}
                 {% if employ.cellphone is not none %}
-                <td class="table-cell">{{ employ.cellphone }}</td>
+                <td><a href="tel:+{{ employ.cellphone }}">{{ employ.cellphone }}</a></td>
                  {% else %}
                 <td></td>
                 {% endif %}
                 {% if employ.phone is not none %}
-                <td class="table-phone">{{ employ.phone }}</td>
+                <td class="table-phone"><a href="tel:{{ employ.phone |  cut:' ' }}">{{ employ.phone }}</a></td>
                 {% else %}
                 <td></td>
                 {% endif %}
@@ -76,6 +79,7 @@
             {% endfor %}
             </tbody>
         </table>
+
 
     </div>
 

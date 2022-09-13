@@ -1,13 +1,18 @@
 import http
 from urllib import request
+import io
+import xlsxwriter
+import xlwt
+from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DeleteView, UpdateView
+from django.views.generic import CreateView, ListView, DeleteView, UpdateView, View
 from .forms import *
 
 
@@ -109,3 +114,43 @@ class DivisionDeleteView(LoginRequiredMixin, DeleteView):
     model = Division
     success_url = reverse_lazy('divisions')
 
+
+class DownloadPhonebook(View):
+    def get(self, request):
+        text = '«Қазмедиа орталығы» басқарушы компаниясы» ЖШС қызметкерлерінің телефон нөмірлері'
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output)
+        worksheet = workbook.add_worksheet('Телефонная книга')
+        merge_format = workbook.add_format({
+            'bold': True,
+            'border': 6,
+            'align': 'center',
+            'valign': 'vcenter',
+            'fg_color': '#D7E4BC',
+        })
+        worksheet.merge_range('A1:G7', text, merge_format)
+        worksheet.set_column('A:Z', 35)
+        data = Employees.objects.all().values_list('fio', 'position', 'department__department', 'division__division',
+                                                   'email', 'cellphone', 'phone__phone')
+        table_range = 'A10:G' + str(len(data) + 10)
+        options = {'data': data,
+                   'style': 'Table Style Light 11',
+                   'columns': [{'header': 'ФИО'},
+                               {'header': 'Должность'},
+                               {'header': 'Департамент'},
+                               {'header': 'Отдел'},
+                               {'header': 'Email'},
+                               {'header': 'Сотовый телефон'},
+                               {'header': 'Рабочий телефон'},
+                               ]}
+        worksheet.add_table(table_range, options)
+        workbook.close()
+        output.seek(0)
+        filename = 'Phonebook.xlsx'
+        response = HttpResponse(
+            output,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+        return response

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.template.defaulttags import url
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
@@ -18,5 +18,6 @@ urlpatterns = [
     path('add_Division', views.DivisionCreateView.as_view(), name='division_add'),
     path('delete_division/<pk>/', views.DivisionDeleteView.as_view(), name='delete_division'),
     path('update_division/<pk>/', views.DivisionUpdateView.as_view(), name='update_division'),
+    re_path(r'^export/xls/$', views.DownloadPhonebook.as_view(), name='download_phonebook'),
 ]
 

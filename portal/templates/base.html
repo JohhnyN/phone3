@@ -1,5 +1,7 @@
 {% load static %}
 
+{% now "Y-m-d" as today_str %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,62 +12,123 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 
 <body>
 
-<div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#"><img src="{% static 'img/logo.png' %}" alt="" width="" height="22"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'home' %}"><i class="bi bi-house-door me-1"></i>Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'phonebook' %}"><i class="bi bi-book me-1"></i>Phonebook</a>
-                    </li>
+<header id="header">
 
-                    {% if perms.phonebook.add_department or perms.phonebook.change_department or perms.phonebook.delete_department %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'departments' %}"><i class="bi bi-window me-1"></i>Департаменты</a>
-                    </li>
-                    {% endif %}
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light">
 
-                    {% if perms.phonebook.add_division or perms.phonebook.change_division or perms.phonebook.delete_division %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'divisions' %}"><i class="bi bi-window-dock me-1"></i>Отделы</a>
-                    </li>
-                    {% endif %}
-
-
-<!--                    <li class="nav-item dropdown">-->
-<!--                        <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown">Добавить</a>-->
-<!--                        <ul class="dropdown-menu fade-up">-->
-<!--                            <li><a class="dropdown-item" href="{% url 'employees_add' %}"><i class="bi bi-person-plus me-2"></i>Сотрудника</a></li>-->
-<!--                            <li><a class="dropdown-item" href="{% url 'department_add' %}"><i class="bi bi-clipboard-plus me-2"></i>Департамент</a></li>-->
-<!--                            <li><a class="dropdown-item" href="{% url 'division_add' %}"><i class="bi bi-journal-plus me-2"></i>Отдел</a></li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
-
-                    {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Выход | {{ user.get_username }}</a></li>
-                    {% else %}
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'login' %}">Вход</a></li>
-                    {% endif %}
+            <div class="d-flex justify-content-between align-items-center navbar-top">
+                <ul class="navbar-left">
+                    <li id="date"></li>
+                    <li id="time"></li>
                 </ul>
+                <div>
+                    <a class="navbar-brand" href="{% url 'home' %}"><img id="logo" src="{% static 'img/logo3.png' %}" alt=""/></a>
+                </div>
+                <div class="d-flex">
+                    <ul class="navbar-right">
+                        <li><a href="#">Руский</a></li>
+                        <li><a href="#">Казахский</a></li>
+                    </ul>
+                    <ul class="social-media">
+                        <li><a href="https://www.instagram.com/kazmedia_ortalygy/" target="blank"><i class="bi bi-instagram"></i></a></li>
+                        <li><a href="https://www.facebook.com/qazmedia/" target="blank"><i class="bi bi-facebook"></i></a></li>
+                        <li><a href="https://www.youtube.com/channel/UCMYPIaprCxS51FRg-v3keCg" target="blank"><i class="bi bi-youtube"></i> </a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
 
-    {% block content %}
-    {% endblock %}
+            <div class="d-flex navbar-bottom-menu">
+                <div class="navbar-collapse justify-content-center w-100">
+                    <ul class="navbar-nav d-lg-flex justify-content-between align-items-center">
+                        <li class="nav-item active"><a class="nav-link active" href="{% url 'home' %}"><i
+                                class="bi bi-house-door me-1"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'phonebook' %}"><i
+                                class="bi bi-book me-1"></i>Phonebook</a></li>
+
+                        {% if perms.phonebook.add_department or perms.phonebook.change_department or perms.phonebook.delete_department %}
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'departments' %}"><i class="bi bi-window me-1"></i>Департаменты</a></li>
+                        {% endif %}
+
+                        {% if perms.phonebook.add_division or perms.phonebook.change_division or perms.phonebook.delete_division %}
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'divisions' %}"><i
+                                class="bi bi-window-dock me-1"></i>Отделы</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <div class="navbar-collapse justify-content-end flex-shrink-0">
+                    <ul class="navbar-nav d-lg-flex justify-content-end align-items-end">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Выход | {{ user.get_username }}</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <a class="weatherwidget-io" href="https://forecast7.com/ru/51d1671d47/astana/" data-label_1="NUR-SULTAN" data-label_2="Погода" data-theme="original" >NUR-SULTAN Погода</a>
+    <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+    </script>
 </div>
+
+<script>
+   var timeNode = document.getElementById('time');
+   var dateNode = document.getElementById('date');
+
+   function getCurrentTimeString() {
+      return new Date().toTimeString().replace(/ .*/, '');
+   }
+
+   Data = new Date();
+   Year = Data.getFullYear();
+   Month = Data.getMonth();
+   Day = Data.getDate();
+
+   switch (Month)
+    {
+      case 0: fMonth="января"; break;
+      case 1: fMonth="февраля"; break;
+      case 2: fMonth="марта"; break;
+      case 3: fMonth="апреля"; break;
+      case 4: fMonth="мае"; break;
+      case 5: fMonth="июня"; break;
+      case 6: fMonth="июля"; break;
+      case 7: fMonth="августа"; break;
+      case 8: fMonth="сентября"; break;
+      case 9: fMonth="октября"; break;
+      case 10: fMonth="ноября"; break;
+      case 11: fMonth="декабря"; break;
+    }
+
+   var date = (Day + " " + fMonth + " " + Year + " года");
+
+
+   dateNode.innerHTML = date;
+
+   setInterval(
+      () => timeNode.innerHTML = getCurrentTimeString(),
+      1000
+   );
+
+</script>
+
+
+{% block content %}
+{% endblock %}
 
 </body>
 </html>

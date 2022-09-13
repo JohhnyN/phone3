@@ -47,7 +47,7 @@ class Employees(models.Model):
                                    related_name='employees',)
     division = models.ForeignKey('Division', on_delete=models.PROTECT, verbose_name='Отдел', related_name='employees',
                                  null=True, blank=True)
-    email = models.EmailField(unique=True, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
     cellphone_regex = RegexValidator(regex=r'^\d{1}-\d{3}-\d{3}-\d{2}-\d{2}$',
                                      message="Номер телефона необходимо вводить в формате: «9-999-999-99-99».")
     cellphone = models.CharField(validators=[cellphone_regex], max_length=15, verbose_name='Сотовый телефон',

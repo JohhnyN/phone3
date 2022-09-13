@@ -1,3 +1,106 @@
+.container{
+    max-width: 1500px;
+}
+
+#logo {
+    max-width: 50px;
+}
+
+.navbar{
+    display: block;
+    padding: 0;
+    }
+
+.navbar-top {
+    padding: 12px 0;
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.navbar-left, .navbar-right {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-left li, .navbar-right li {
+    list-style: none;
+    color: #000;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 4;
+    letter-spacing: normal;
+    padding-right: 42px;
+}
+
+.navbar-right li {
+    padding-right: 0;
+}
+
+.navbar-right li a {
+    color: #000;
+    font-size: 14px;
+    padding: 0 5px;
+    text-decoration: none;
+    border-right: 1px solid #dbdbdb;
+}
+
+.navbar-right li:last-child a {
+    border-right: none;
+}
+
+.social-media {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  padding-left: 22px;
+  padding-top: 16px;
+}
+
+.social-media li {
+    padding: 0 4px;
+}
+
+.social-media li a {
+    padding: 2px 4px;
+    background-color: #000;
+    border-radius: 4px;
+    color: #ffffff;
+}
+
+.navbar-bottom-menu {
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.navbar-bottom-menu .navbar-nav .nav-item {
+    padding-left: 0;
+}
+
+.navbar-bottom-menu .navbar-nav .nav-item .nav-link {
+    padding: 22px;
+    line-height: 1.31;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.card{
+  transition:0.5s;
+  cursor:pointer;
+}
+
+.card:hover{
+  transform: scale(1.05);
+  box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
+}
+
+.card-link{
+    color: #000;
+    text-decoration: none;
+}
+
+
 tr:hover {
     background-color: #cfe2ff;
     }
