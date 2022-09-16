@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Дни рождения{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="p-5 mb-4 bg-light rounded-3 ">
+        <h1 class="d-flex justify-content-center">Дни рождения</h1>
+    </div>
+
+    <form action="" method="get" class="">
+        <div class="form-control input-group mb-5">
+            <input type="text" class="form-control form-control-lg" placeholder="Поиск" name="q">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Поиск</button>
+        </div>
+    </form>
+
+    {% if perms.main.add_birthday %}
+    <div class="d-flex justify-content-end mb-3">
+        <a class="btn btn-sm btn-primary" href="{% url 'birthday_add' %}">Добавить день рождения</a>
+    </div>
+    {% endif %}
+
+
+    <div class="row">
+
+        {% for b in birthday %}
+
+        <div class="col-sm-3 g-3 d-flex">
+            <div class="card bg-light">
+                <div class="row p-2 ">
+
+                    <div class="col-sm-4 ">
+                        <img src="{{ b.photo.url }}" class="card-img" alt="...">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="card-button">
+                            {% if perms.main.change_birthday %}
+                            <a href="{% url 'update_birthday' b.id %}" class="btn btn-warning mb-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                               title="Изменить"><i class="bi bi-pencil"></i></a>
+                            {% endif %}
+                            <a href="{% url 'delete_birthday' b.id %}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                               title="Удалить"><i class="bi bi-x"></i></a>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ b.fio }}</h5>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="card-body border-top">
+                    <p class="card-text">{{ b.position }}</p>
+                    <p class="card-text">Дата рождения - {{b.date}}</p>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

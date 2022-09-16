@@ -14,9 +14,10 @@
 
 
     <div class="">
-        <div class="d-flex p-4">
+        <div class="d-flex p-4 justify-content-around">
+            
             <a class="card-link" href="https://documentolog.kmo.kz/" target="blank">
-                <div class="card p-2 me-4">
+                <div class="card p-2 me-4 service_link">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-4">
                             <img src="{% static 'img/documentolog.png' %}" width="60" height="80" alt="Documentolog">
@@ -30,7 +31,7 @@
             </a>
 
             <a class="card-link" href="https://hd.kmo.kz/" target="blank">
-                <div class="card p-2 me-4">
+                <div class="card p-2 me-4 service_link">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-4">
                             <img src="{% static 'img/HD.png' %}" width="60" height="80" alt="HelpDesk">
@@ -44,7 +45,7 @@
             </a>
 
             <a class="card-link" href="http://10.23.65.99/" target="blank">
-                <div class="card p-2 me-4">
+                <div class="card p-2 me-4 service_link">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-4">
                             <img src="{% static 'img/SKUD.png' %}" width="60" height="80" alt="SKUD">
@@ -57,23 +58,61 @@
                 </div>
             </a>
 
-            <a class="card-link" href="file://///\\localhost" target="_explorer.exe">
-                <div class="card p-2">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col-md-4">
-                            <img src="{% static 'img/sample.png' %}" width="60" height="80" alt="SKUD">
-                        </div>
-                        <div class="col-md-8">
-                            <h5>Шаблоны</h5>
-                            <p>Перейти</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
+
 
         </div>
 
     </div>
+
+    {% if birthday%}
+    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+
+        {% for b in birthday %}
+
+        <div class="col">
+            <div class="card birthday">
+                <img src="{{ b.photo.url }}" class="birthday-image" alt="">
+                <h5 class="birthday-title">{{ b.fio }}</h5>
+                <p class="birthday-text">{{ b.position }}</p>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+        <div class="col">
+            <div class="card">
+                <img src="#" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 5 mins ago</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <img src="#" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some dummy text to make up the card's content. You can replace it anytime.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 5 mins ago</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 
 
 

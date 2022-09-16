@@ -106,7 +106,7 @@ class DivisionCreateView(LoginRequiredMixin, CreateView):
 
 class DivisionUpdateView(LoginRequiredMixin, UpdateView):
     model = Division
-    form_class = DivisionUpdateForm
+    form_class = DivisionForm
     success_url = reverse_lazy('divisions')
 
 

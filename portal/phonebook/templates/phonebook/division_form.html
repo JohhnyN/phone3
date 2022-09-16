@@ -14,9 +14,9 @@
     <div class="p-5 mb-4 bg-light rounded-3 center">
 
         {% if form.division.value %}
-        <h1 class="d-flex justify-content-center">Форма изменения отделов</h1>
+        <h1 class="d-flex justify-content-center">Форма изменения отделов1</h1>
         {% else %}
-        <h1 class="d-flex justify-content-center">Форма добавление отдела</h1>
+        <h1 class="d-flex justify-content-center">Форма добавление отдела1</h1>
         {% endif %}
         <p class="d-flex justify-content-center lead">Поля отмеченные звездочкой обязательны для заполнения</p>
     </div>
@@ -30,9 +30,9 @@
 
             {% for f in form %}
 
-                <div class="row mb-4">
-                    <label class="col-sm-2 col-form-label">{{ f.label }}{% if f.field.required %} * {% endif %} :</label>
-                    <div class="col-sm-10">{{ f }}</div>
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">{{ f.label }}{% if f.field.required %} * {% endif %} :</label>
+                <div class="col-sm-10">{{ f }}</div>
 
                 {% if f.errors %}
 
@@ -43,21 +43,21 @@
 
                 {% endif %}
 
-                </div>
+            </div>
 
             {% endfor %}
 
-        <div class="row">
-            <div class="col-md-6">
-                <a class="btn btn-warning w-100 me-2" href="{% url 'divisions' %}">Отменить</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn btn-warning w-100 me-2" href="{% url 'divisions' %}">Отменить</a>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100">Добавить</button>
+                </div>
             </div>
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-secondary w-100">Добавить</button>
-            </div>
-        </div>
 
 
         </form>
     </div>
 
-{% endblock %}
+    {% endblock %}

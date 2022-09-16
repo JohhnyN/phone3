@@ -52,6 +52,10 @@
                         <li class="nav-item"><a class="nav-link active" href="{% url 'phonebook' %}"><i
                                 class="bi bi-book me-1"></i>Phonebook</a></li>
 
+                        {% if perms.main.add_birthday or perms.main.change_birthday or perms.main.delete_birthday %}
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'birthday' %}"><i class="bi bi-window me-1"></i>Дни рождения</a></li>
+                        {% endif %}
+
                         {% if perms.phonebook.add_department or perms.phonebook.change_department or perms.phonebook.delete_department %}
                         <li class="nav-item"><a class="nav-link active" href="{% url 'departments' %}"><i class="bi bi-window me-1"></i>Департаменты</a></li>
                         {% endif %}

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{% if form.department.value %}
-Изменение департамента
+{% if form.fio.value %}
+Изменение дня рождения
 {% else %}
-Добавление департамента
+Добавление дня рождения
 {% endif %}
 {% endblock %}
 
@@ -12,17 +12,23 @@
 
 <div class="container">
     <div class="p-5 mb-4 bg-light rounded-3 center">
-        {% if form.department.value %}
-        <h1 class="d-flex justify-content-center">Форма изменения департамента </h1>
+
+        {% if form.fio.value %}
+        <h1 class="d-flex justify-content-center">Форма изменения дня рождения </h1>
         {% else %}
-        <h1 class="d-flex justify-content-center">Форма добавления департаментов </h1>
+        <h1 class="d-flex justify-content-center">Форма добавления дня рождения </h1>
         {% endif %}
         <p class="d-flex justify-content-center lead">Поля отмеченные звездочкой обязательны для заполнения</p>
     </div>
 
     <div class="container-form mt-5">
 
-        <form class="needs-validation" method="post" id="DepartmentForm" novalidate>
+
+
+
+
+
+        <form class="needs-validation" method="post" id="BirthdayForm" novalidate enctype="multipart/form-data">
 
             {% csrf_token %}
 
@@ -41,13 +47,18 @@
 
                 {% endif %}
 
+
                 </div>
 
             {% endfor %}
 
+            {% if birthday.photo %}
+            <img src="{{ birthday.photo.url }}" alt="">
+            {% endif %}
+
             <div class="row">
                     <div class="col-md-6">
-                        <a class="btn btn-warning w-100 me-2" href="{% url 'departments' %}">Отменить</a>
+                        <a class="btn btn-warning w-100 me-2" href="{% url 'birthday' %}">Отменить</a>
                     </div>
                     <div class="col-md-6">
                         <button type="submit" class="btn btn-secondary w-100">Добавить</button>
@@ -56,5 +67,6 @@
 
         </form>
     </div>
+
 
 {% endblock %}
