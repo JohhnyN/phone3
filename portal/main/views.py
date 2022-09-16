@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from .models import *
 from .forms import *
 from django.db.models import Q
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class Index(TemplateView):
@@ -36,9 +37,10 @@ class BirthdayListView(LoginRequiredMixin, ListView):
         return Birthday.objects.filter()
 
 
-class BirthdayCreateView(LoginRequiredMixin, CreateView):
+class BirthdayCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Birthday
     form_class = BirthdayForm
+    success_message = "День рождения был успешно добавлен"
     success_url = reverse_lazy('birthday')
 
 

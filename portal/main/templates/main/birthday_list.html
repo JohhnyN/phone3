@@ -23,6 +23,14 @@
     </div>
     {% endif %}
 
+    {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" style="padding-top:80px">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif  %}
+
 
     <div class="row">
 
