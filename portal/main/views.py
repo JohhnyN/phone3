@@ -2,10 +2,16 @@ import datetime
 
 import requests
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, View, TemplateView
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
+from django.template import loader
+
+
 from .models import *
 from .forms import *
 from django.db.models import Q
@@ -44,14 +50,44 @@ class BirthdayCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('birthday')
 
 
-class BirthdayUpdateView(LoginRequiredMixin, UpdateView):
+class BirthdayUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Birthday
     form_class = BirthdayForm
+    success_message = "День рождения был успешно изменен"
     success_url = reverse_lazy('birthday')
 
 
-class BirthdayDelete(LoginRequiredMixin, DeleteView):
+class BirthdayDelete(LoginRequiredMixin, SuccessMessageMixin,  DeleteView):
     model = Birthday
+    success_message = "День рождения удален"
     success_url = reverse_lazy('birthday')
 
 
+def send_card(request):
+    today = datetime.datetime.today()
+    birthday = Birthday.objects.filter(date__month=today.month, date__day=today.day)
+
+    for b in birthday:
+        fio = b.fio
+        position = b.position
+        photo = b.photo.url
+
+        if birthday:
+            print(photo)
+            html_message = loader.render_to_string(
+                r'D:\phone\portal\main\templates\main\email_card.html',
+                {
+                    'photo': photo,
+                    'fio': fio,
+                    'position': position,
+                }
+            )
+            send_mail(
+                'Тема',
+                'Открытка',
+                'zh@kmo.kz',
+                ['zh.nurushev@kmo.kz'],
+                fail_silently=False,
+                html_message=html_message,
+            )
+    return redirect('birthday')

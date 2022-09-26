@@ -19,17 +19,23 @@
 
     {% if perms.main.add_birthday %}
     <div class="d-flex justify-content-end mb-3">
-        <a class="btn btn-sm btn-primary" href="{% url 'birthday_add' %}">Добавить день рождения</a>
+        <a class="btn btn-sm btn-primary me-2" href="{% url 'birthday_add' %}">Добавить день рождения</a>
+        <a class="btn btn-sm btn-primary" href="{% url 'send' %}">Отправить письмо</a>
+
     </div>
     {% endif %}
 
     {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}" style="padding-top:80px">
-                    {{ message }}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" id="message">
+                <div class="modal-header" >
+                    <h5 class="modal-title">{{ message }}</h5>
+                    <button type="button" id="close" class="btn-close" onClick=»closeIt()"></button>
                 </div>
-            {% endfor %}
-        {% endif  %}
+            </div>
+
+        {% endfor %}
+    {% endif  %}
 
 
     <div class="row">
@@ -78,5 +84,13 @@
     </div>
 
 </div>
+
+<script>
+     const message = document.getElementById("message");
+     const btn = document.getElementById("close");
+     btn.onclick = function () {
+        message.style.display = "none";
+        };
+</script>
 
 {% endblock %}

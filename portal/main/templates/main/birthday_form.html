@@ -11,6 +11,7 @@
 {% block content %}
 
 <div class="container">
+
     <div class="p-5 mb-4 bg-light rounded-3 center">
 
         {% if form.fio.value %}
@@ -23,50 +24,87 @@
 
     <div class="container-form mt-5">
 
-
-
-
-
-
-        <form class="needs-validation" method="post" id="BirthdayForm" novalidate enctype="multipart/form-data">
+        <form class="create-form" method="post" enctype="multipart/form-data">
 
             {% csrf_token %}
 
-            {% for f in form %}
-
-                <div class="row mb-4">
-                    <label class="col-sm-2 col-form-label">{{ f.label }}{% if f.field.required %} * {% endif %} :</label>
-                    <div class="col-sm-10">{{ f }}</div>
-
-                {% if f.errors %}
-
-                <div class="alert alert-danger alert-dismissible fade show mt-2">
-                    <strong>{{f.errors}}</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <!-- FIO -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Сотрудник * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="fio" class="form-control" maxlength="255" placeholder="Введите ФИО сотрудника"
+                           id="id_fio" value="{{birthday.fio}}" required autofocus>
                 </div>
+            </div>
 
-                {% endif %}
-
-
+            <!-- Position -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Должность * :</label>
+                <div class="col-sm-10">
+                            <textarea class="form-control" rows="2" type="text" name="position" id="id_position"
+                                      placeholder="Введите должность сотрудника" required>{{birthday.position}}</textarea>
                 </div>
+            </div>
 
-            {% endfor %}
+            <!-- Date -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">День рождения * :</label>
+                <div class="col-sm-2">
+                    <input type="date" name="date" class="form-control" id="datepicker" placeholder="Дата рождения"
+                           value="{{birthday.date|date:'Y-m-d'}}" required autofocus>
+                </div>
+            </div>
 
-            {% if birthday.photo %}
-            <img src="{{ birthday.photo.url }}" alt="">
-            {% endif %}
+            <!-- Photo -->
+            <div class="row mb-4">
+                <div class="form-group image-group" id="id_image_group">
+                    <img class="img-fluid image" src="{{birthday.photo.url}}" id="id_image_display">
+                    <div class="middle">
+                        <div class="text">Изменить фото</div>
+                    </div>
+                </div>
+                <label class="col-sm-2 col-form-label">Фото * :</label>
+                <div class="col-sm-10">
+                    <input type="file" name="photo" id="id_image_file" accept="image/*" onchange="readURL(this)"
+                           value="{{form.initial.photo.url}}">
+                </div>
+            </div>
 
+            <!-- Submit btn -->
             <div class="row">
-                    <div class="col-md-6">
-                        <a class="btn btn-warning w-100 me-2" href="{% url 'birthday' %}">Отменить</a>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-secondary w-100">Добавить</button>
-                    </div>
+                <div class="col-md-6">
+                    <a class="btn btn-warning w-100 me-2" href="{% url 'birthday' %}">Отменить</a>
                 </div>
-
+                {% if form.fio.value %}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100">Изменить</button>
+                </div>
+                {% else%}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100">Добавить</button>
+                </div>
+                {% endif %}
+            </div>
         </form>
     </div>
 
+</div>
 
-{% endblock %}
+<script type="text/javascript">
+	document.getElementById('id_image_group').onclick = function(event){
+    	document.getElementById('id_image_file').click();
+    };
+
+	function readURL(input){
+		var reader = new FileReader();
+		reader.onload = function (e) {
+            $('#id_image_display')
+                .attr('src', e.target.result)
+        };
+		reader.readAsDataURL(input.files[0]);
+	}
+
+
+</script>
+
+{% endblock content %}

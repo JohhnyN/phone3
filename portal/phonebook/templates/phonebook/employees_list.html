@@ -5,6 +5,16 @@
 {% block content %}
 
 <div class="container">
+
+    <div class="container">
+    <a class="weatherwidget-io" href="https://forecast7.com/ru/51d1671d47/astana/" data-label_1="NUR-SULTAN" data-label_2="Погода" data-theme="original" >NUR-SULTAN Погода</a>
+    <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+    </script>
+</div>
+
+
+
     <div class="p-5 mb-4 bg-light rounded-3">
         <h1 class="d-flex justify-content-center">Телефонная книга</h1>
     </div>
@@ -15,6 +25,18 @@
             <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Поиск</button>
         </div>
     </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" id="message">
+                <div class="modal-header" >
+                    <h5 class="modal-title">{{ message }}</h5>
+                    <button type="button" id="close" class="btn-close" onClick=»closeIt()"></button>
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endif  %}
 
     {% if perms.phonebook.add_employees %}
     <div class="d-flex justify-content-end mb-3">
@@ -84,6 +106,14 @@
     </div>
 
 </div>
+
+<script>
+     const message = document.getElementById("message");
+     const btn = document.getElementById("close");
+     btn.onclick = function () {
+        message.style.display = "none";
+        };
+</script>
 
     {% endblock %}
 

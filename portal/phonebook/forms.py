@@ -31,12 +31,6 @@ class EmployeesForm(forms.ModelForm):
         elif self.instance.pk:
             self.fields['division'].queryset = self.instance.department.division_set.order_by('division')
 
-    def clean_fio(self):
-        fio = self.cleaned_data['fio']
-        if Employees.objects.filter(fio=fio).exists():
-            raise forms.ValidationError('Такой сотрудник уже существует')
-        return fio
-
 
 class EmployeesUpdateForm(forms.ModelForm):
     class Meta:
@@ -51,12 +45,6 @@ class EmployeesUpdateForm(forms.ModelForm):
             'cellphone': forms.TextInput(attrs={'class': 'form-control'}),
             'phone': forms.Select(attrs={'class': 'form-control'}),
         }
-
-    def clean_fio(self):
-        fio = self.cleaned_data['fio']
-        if Employees.objects.filter(fio=fio).exists():
-            raise forms.ValidationError('Такой сотрудник уже существует')
-        return fio
 
 
 class DepartmentForm(forms.ModelForm):

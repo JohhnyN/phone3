@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'main.apps.MainConfig',
     'phonebook.apps.PhonebookConfig',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'ru'
 LANGUAGES = [
     ('en', _('English')),
     ('ru', _('Russian')),
@@ -159,3 +160,10 @@ LOCALE_PATHS = [
 LOGOUT_REDIRECT_URL = 'home'
 
 SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+
+#smtp
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.kmo.kz'
+EMAIL_HOST_USER = 'nuruza'
+EMAIL_HOST_PASSWORD = 'fhvfy1006!!'
+EMAIL_PORT = 25

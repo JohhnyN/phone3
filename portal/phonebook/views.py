@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, View
 from .forms import *
@@ -32,9 +33,10 @@ class EmployeesListView(ListView):
         return Employees.objects.filter()
 
 
-class EmployeesCreateView(LoginRequiredMixin, CreateView):
+class EmployeesCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Employees
     form_class = EmployeesForm
+    success_message = "Сотрудник был успешно добавлен"
     success_url = reverse_lazy('phonebook')
 
 
@@ -44,15 +46,17 @@ def load_division(request):
     return render(request, 'phonebook/division_dropdown_list_options.html', {'divisions': divisions})
 
 
-class EmployeesUpdateView(LoginRequiredMixin, UpdateView):
+class EmployeesUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Employees
     initial = {'department': '', 'division': '', }
     form_class = EmployeesUpdateForm
+    success_message = "Сотрудник был успешно изменен"
     success_url = reverse_lazy('phonebook')
 
 
-class EmployeesDelete(LoginRequiredMixin, DeleteView):
+class EmployeesDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Employees
+    success_message = "Сотрудник был удален"
     success_url = reverse_lazy('phonebook')
 
 

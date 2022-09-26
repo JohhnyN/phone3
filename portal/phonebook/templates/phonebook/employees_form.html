@@ -53,9 +53,15 @@
                 <div class="col-md-6">
                     <a class="btn btn-warning w-100 me-2" href="{% url 'phonebook' %}">Отменить</a>
                 </div>
+                {% if form.fio.value %}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100">Изменить</button>
+                </div>
+                {% else %}
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-secondary w-100">Добавить</button>
                 </div>
+                {% endif %}
             </div>
 
         </form>
