@@ -1,21 +1,17 @@
 import datetime
 
-import requests
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.views.generic import CreateView, ListView, DeleteView, UpdateView, View, TemplateView
+from django.views.generic import CreateView, ListView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
-from django.template import loader
-
-
-from .models import *
+from django.core.mail import EmailMessage
+from html2image import Html2Image
 from .forms import *
 from django.db.models import Q
 from django.contrib.messages.views import SuccessMessageMixin
+from django.conf import settings
 
 
 class Index(TemplateView):
@@ -67,27 +63,55 @@ def send_card(request):
     today = datetime.datetime.today()
     birthday = Birthday.objects.filter(date__month=today.month, date__day=today.day)
 
-    for b in birthday:
-        fio = b.fio
-        position = b.position
-        photo = b.photo.url
+    if birthday:
+        print('Отправка письма')
+        for b in birthday:
 
-        if birthday:
-            print(photo)
-            html_message = loader.render_to_string(
-                r'D:\phone\portal\main\templates\main\email_card.html',
-                {
-                    'photo': photo,
-                    'fio': fio,
-                    'position': position,
-                }
+            # Путь к Открытке
+            card = settings.STATICFILES_DIRS
+            card = ''.join(card) + '/img/Открытка.png'
+
+            # Данные ДР
+            fio = b.fio
+            position = b.position
+
+            # Путь к фото ДР
+            url = settings.MEDIA_ROOT
+            new_url = url.rsplit("\\", 1)[0]
+            photo = new_url + b.photo.url
+
+            # Контекст для рендеринга
+            context = {
+                'card': card,
+                'fio': fio,
+                'position': position,
+                'photo': photo,
+            }
+            html = render_to_string('main/source_email.html', context)
+
+            # Получение карточки
+            folder = url + '/Card'
+            hti = Html2Image(output_path=folder)
+            fio_card = fio.rsplit(" ", 2)[0]
+            filename = fio_card + '.jpg'
+            hti.screenshot(html_str=html, save_as=filename, size=(724, 420))
+            print('есть карточка')
+
+            # Отправка письма
+            image_path = folder + '/' + filename
+            context = {'filename': image_path}
+            html = render_to_string('main/email_card.html', context)
+            subject = 'C Днем Рождения ' + fio
+            print(subject)
+            mail = EmailMessage(
+                subject=subject,
+                body=html,
+                from_email='portal@kmo.kz',
+                to=['zh.nurushev@kmo.kz'],
             )
-            send_mail(
-                'Тема',
-                'Открытка',
-                'zh@kmo.kz',
-                ['zh.nurushev@kmo.kz'],
-                fail_silently=False,
-                html_message=html_message,
-            )
+            mail.content_subtype = "html"
+            mail.send()
+            print('письмо ушло')
+
     return redirect('birthday')
+

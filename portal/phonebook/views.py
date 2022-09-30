@@ -72,20 +72,23 @@ class DepartmentListView(LoginRequiredMixin, ListView):
         return Department.objects.filter()
 
 
-class DepartmentCreateView(LoginRequiredMixin, CreateView):
+class DepartmentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Department
     form_class = DepartmentForm
+    success_message = "Департамент был успешно добавлен"
     success_url = reverse_lazy('departments')
 
 
-class DepartmentUpdateView(LoginRequiredMixin, UpdateView):
+class DepartmentUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Department
     form_class = DepartmentForm
+    success_message = "Департамент был успешно изменен"
     success_url = reverse_lazy('departments')
 
 
-class DepartmentDelete(LoginRequiredMixin, DeleteView):
+class DepartmentDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Department
+    success_message = "Департамент был удален"
     success_url = reverse_lazy('departments')
 
 
@@ -102,20 +105,23 @@ class DivisionListView(LoginRequiredMixin, ListView):
         return Division.objects.filter()
 
 
-class DivisionCreateView(LoginRequiredMixin, CreateView):
+class DivisionCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Division
     form_class = DivisionForm
+    success_message = "Отдел был успешно добавлен"
     success_url = reverse_lazy('divisions')
 
 
-class DivisionUpdateView(LoginRequiredMixin, UpdateView):
+class DivisionUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Division
     form_class = DivisionForm
+    success_message = "Отдел был успешно изменен"
     success_url = reverse_lazy('divisions')
 
 
-class DivisionDeleteView(LoginRequiredMixin, DeleteView):
+class DivisionDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Division
+    success_message = "Отдел был удален"
     success_url = reverse_lazy('divisions')
 
 

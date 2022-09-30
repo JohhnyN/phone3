@@ -16,6 +16,18 @@
         </div>
     </form>
 
+     {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" id="message">
+                <div class="modal-header" >
+                    <h5 class="modal-title">{{ message }}</h5>
+                    <button type="button" id="close" class="btn-close" onClick=»closeIt()"></button>
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endif  %}
+
     {% if perms.phonebook.add_division %}
     <div class="d-flex justify-content-end mb-3">
          <a class="btn btn-sm btn-primary" href="{% url 'division_add' %}">Добавить отдел</a>
@@ -59,6 +71,14 @@
 
     </div>
 </div>
+
+<script>
+     const message = document.getElementById("message");
+     const btn = document.getElementById("close");
+     btn.onclick = function () {
+        message.style.display = "none";
+        };
+</script>
 
     {% endblock %}
 
