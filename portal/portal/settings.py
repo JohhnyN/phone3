@@ -133,7 +133,7 @@ SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', '
 
 #smtp
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.kmo.kz'
-EMAIL_HOST_USER = 'nuruza'
-EMAIL_HOST_PASSWORD = 'fhvfy1006!!'
+EMAIL_HOST = 
+EMAIL_HOST_USER = '
+EMAIL_HOST_PASSWORD = 
 EMAIL_PORT = 25
