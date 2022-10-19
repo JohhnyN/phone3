@@ -1,6 +1,6 @@
 import datetime
 
-
+from django.conf.global_settings import STATIC_URL
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
@@ -12,6 +12,9 @@ from .forms import *
 from django.db.models import Q
 from django.contrib.messages.views import SuccessMessageMixin
 from django.conf import settings
+
+from django.templatetags.static import static
+import pathlib
 
 
 class Index(TemplateView):
@@ -82,7 +85,6 @@ def send_card(request):
 
             # Контекст для рендеринга
             context = {
-                'card': card,
                 'fio': fio,
                 'position': position,
                 'photo': photo,
@@ -91,7 +93,9 @@ def send_card(request):
 
             # Получение карточки
             folder = url + '/Card'
+            print(folder)
             hti = Html2Image(output_path=folder)
+            print(hti)
             fio_card = fio.rsplit(" ", 2)[0]
             filename = fio_card + '.jpg'
             hti.screenshot(html_str=html, save_as=filename, size=(724, 420))

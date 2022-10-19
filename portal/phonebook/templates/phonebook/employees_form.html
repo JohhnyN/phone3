@@ -22,7 +22,7 @@
 
     <div class="container-form">
 
-        <form class="needs-validation" method="post" id="employeesForm"
+        <form class="needs-validation" method="POST" id="employeesForm"
               data-division-url="{% url 'ajax_load_division' %}" novalidate>
 
             {% csrf_token %}
@@ -65,8 +65,6 @@
         </form>
 
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
     <!-- список отделов -->
     <script>

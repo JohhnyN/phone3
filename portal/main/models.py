@@ -13,4 +13,8 @@ class Birthday(models.Model):
         ordering = ['fio']
 
 
+# class News(models.Model):
+#     title = models.CharField(max_length=255, unique=True, verbose_name='Новость')
+#
+
 
