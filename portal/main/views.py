@@ -13,6 +13,10 @@ from django.db.models import Q
 from django.contrib.messages.views import SuccessMessageMixin
 from django.conf import settings
 
+
+from django.conf import settings
+from django.core.mail import send_mail
+
 from django.templatetags.static import static
 import pathlib
 
@@ -66,6 +70,7 @@ def send_card(request):
     today = datetime.datetime.today()
     birthday = Birthday.objects.filter(date__month=today.month, date__day=today.day)
 
+
     if birthday:
         print('Отправка письма')
         for b in birthday:
@@ -117,5 +122,32 @@ def send_card(request):
             mail.send()
             print('письмо ушло')
 
+    return redirect('birthday')
+
+
+def send(request):
+    today = datetime.datetime.today()
+    birthday = Birthday.objects.filter(date__month=today.month, date__day=today.day)
+    if birthday:
+        for b in birthday:
+            fio = b.fio
+            position = b.position
+            context = {
+                'fio': fio,
+                'position': position,
+            }
+        subject = 'Тема2'
+        msg = 'Сообщение2'
+        msg_html = render_to_string(f'D:/phone/WebSite3115555/index.html', context)
+        send_mail(
+            subject=subject,
+            message=msg,
+            html_message=msg_html,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[settings.RECIPIENT_ADDRESS]
+        )
+        print('Письмо отправлено')
+    else:
+        print('Нет ДР')
     return redirect('birthday')
 

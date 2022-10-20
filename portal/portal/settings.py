@@ -1,4 +1,7 @@
 import os
+import environ
+env = environ.Env()
+environ.Env.read_env()
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 
@@ -132,8 +135,11 @@ LOGOUT_REDIRECT_URL = 'home'
 SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 #smtp
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.kmo.kz'
-EMAIL_HOST_USER = 'nuruza'
-EMAIL_HOST_PASSWORD = 'fhvfy1006!!'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
+

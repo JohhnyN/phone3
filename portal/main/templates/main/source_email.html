@@ -5,12 +5,19 @@
     <meta charset="UTF-8">
 </head>
 
-<body style="width: 724; height: 405; position: relative;">
+<body style="width: 724; height: 405;">
+<div class="parent" style="position: relative; display: inline-block; border: 2px solid #0074d9; color: #0074d9; padding: 20px;">
+    Parent element
+    <div style="border: 1px dotted #000; background-color: #eee; padding: 20px; color: #000; position: fixed; top: 50px; left: 550px;">Child element</div>
+</div>
 
-    <img src="D:\phone\portal\static\img\Открытка.png" style="width:100%;">
-    <h5 style="position:absolute; top: 40%; left: 34%; font-weight: bold; font-size: 22px;">{{ fio }}</h5>
-    <p style="position:absolute; top: 53%; left: 34%; font-size: 16px; width: 300px;">{{ position }}</p>
-    <img src="{{ photo }}" style="position:absolute; top: 76px; left: 55px; width: 165px; height: 220px; border: solid 1px grey;">
+<h5 style="position: relative; top: 40%; left: 34%; font-weight: bold; font-size: 22px;">{{ fio }}</h5>
+
+<img src="D:\phone\portal\static\img\Открытка.png" style="height: 100%; width:50%;"/>
+
+<p style="position:absolute; top: 53%; left: 34%; font-size: 16px; width: 300px;">{{ position }}</p>
+<img src="{{ photo }}"
+     style="position:absolute; top: 76px; left: 55px; width: 165px; height: 220px; border: solid 1px grey;">
 
 </body>
 </html>
