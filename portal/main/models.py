@@ -1,9 +1,12 @@
 from django.db import models
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User, Group
 
 
 class Birthday(models.Model):
-    fio = models.CharField(max_length=255, unique=True, verbose_name='Сотрудник')
-    position = models.CharField(max_length=255, verbose_name='Должность')
+    fio = models.CharField(max_length=255, unique=True, verbose_name=_('Сотрудник'))
+    position = models.CharField(max_length=255, verbose_name=_('Должность'))
     date = models.DateField(verbose_name='День рождения')
     photo = models.ImageField(upload_to='birthday_photos', verbose_name='Фото')
 
@@ -12,9 +15,29 @@ class Birthday(models.Model):
         verbose_name_plural = 'Дни рождения'
         ordering = ['fio']
 
+    def __str__(self):
+        return self.fio
 
-# class News(models.Model):
-#     title = models.CharField(max_length=255, unique=True, verbose_name='Новость')
-#
+
+class News(models.Model):
+    title = models.CharField(max_length=255, unique=True, verbose_name=_('Новость'))
+    slug = models.SlugField(unique=True)
+    text = models.TextField(verbose_name=_('Текст'))
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Автор'))
+    division = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name=_('Отдел'))
+
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+        ordering = ['id']
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('article_detail', kwargs={'slug': self.slug})
+
 
 

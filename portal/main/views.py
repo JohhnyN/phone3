@@ -1,7 +1,7 @@
 import datetime
 
 from django.conf.global_settings import STATIC_URL
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, TemplateView
@@ -151,3 +151,10 @@ def send(request):
         print('Нет ДР')
     return redirect('birthday')
 
+
+def article_detail(request, slug):
+    instance = get_object_or_404(News, slug=slug)
+    context = {
+        'instance': instance
+    }
+    return render(request, 'main/article_detail.html', context)
