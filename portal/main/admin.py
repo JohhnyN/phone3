@@ -6,8 +6,9 @@ from .models import *
 
 
 @admin.register(Birthday)
-class EmployeesAdmin(ImportExportModelAdmin, TranslationAdmin):
-    list_display = ('fio', 'position', 'date', 'get_html_photo',)
+class EmployeesAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('fio', 'fio_kk', 'position', 'position_kk', 'date', 'get_html_photo',)
+    list_display_links = ('fio', 'fio_kk',)
     search_fields = ('fio',)
 
     def get_html_photo(self, object):
@@ -23,3 +24,11 @@ class NewsAdmin(ImportExportModelAdmin, TranslationAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
+@admin.register(MainTest)
+class MainTestAdmin(TranslationAdmin):
+    list_display = ('id', 'title', 'title_ru', 'title_kk')
+
+
+@admin.register(ParentTest)
+class ParentTestAdmin(TranslationAdmin):
+    list_display = ('id', 'test_ru', 'test_kk', 'title', 'title_ru', 'title_kk')

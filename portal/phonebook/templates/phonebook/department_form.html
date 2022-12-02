@@ -1,60 +1,93 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
 {% block title %}
 {% if form.department.value %}
-Изменение департамента
+{% trans 'Изменение департамента' %}
 {% else %}
-Добавление департамента
+{% trans 'Добавление департамента' %}
 {% endif %}
 {% endblock %}
 
 {% block content %}
 
 <div class="container">
+
     <div class="p-5 mb-4 bg-light rounded-3 center">
+
         {% if form.department.value %}
-        <h1 class="d-flex justify-content-center">Форма изменения департамента </h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Форма изменения департамента' %}</h1>
         {% else %}
-        <h1 class="d-flex justify-content-center">Форма добавления департаментов </h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Форма добавления департаментов' %}</h1>
         {% endif %}
-        <p class="d-flex justify-content-center lead">Поля отмеченные звездочкой обязательны для заполнения</p>
+        <p class="d-flex justify-content-center lead">{% trans 'Поля отмеченные звездочкой обязательны для заполнения' %}</p>
+
     </div>
 
     <div class="container-form mt-5">
 
-        <form class="needs-validation" method="post" id="DepartmentForm" novalidate>
+        <form class="create-form" method="post" enctype="multipart/form-data">
 
             {% csrf_token %}
 
-            {% for f in form %}
-
-                <div class="row mb-4">
-                    <label class="col-sm-2 col-form-label">{{ f.label }}{% if f.field.required %} * {% endif %} :</label>
-                    <div class="col-sm-10">{{ f }}</div>
-
-                {% if f.errors %}
-
-                <div class="alert alert-danger alert-dismissible fade show mt-2">
-                    <strong>{{f.errors}}</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <!-- department -->
+            <div class="row mb-4 d-none">
+                <label class="col-sm-2 col-form-label">{% trans 'Департамент' %} * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="department" class="form-control" maxlength="255" placeholder="Введите департамент" id="id_department" value="{{department.department}}" required autofocus>
                 </div>
+            </div>
 
-                {% endif %}
-
+            <!-- department_ru -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Департамент * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="department_ru" class="form-control" maxlength="255" placeholder="Введите департамент" id="id_department_ru" value="{{department.department_ru}}" required autofocus>
                 </div>
+            </div>
 
-            {% endfor %}
+            <!-- department_kk -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Департаменті * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="department_kk" class="form-control" maxlength="255" placeholder="Департамент енгізіңіз" id="id_department_kk" value="{{department.department_kk}}" required autofocus>
+                </div>
+            </div>
 
+            <!-- Submit btn -->
             <div class="row">
-                    <div class="col-md-6">
-                        <a class="btn btn-warning w-100 me-2" href="{% url 'departments' %}">Отменить</a>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-secondary w-100">Добавить</button>
-                    </div>
+                <div class="col-md-6">
+                    <a class="btn btn-warning w-100 me-2" href="{% url 'departments' %}">{% trans 'Отменить' %}</a>
                 </div>
+                {% if form.department.value %}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100 btn_save">{% trans 'Изменить' %}</button>
+                </div>
+                {% else%}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100 btn_save">{% trans 'Добавить' %}</button>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible fade show mt-2">
+                <strong>{% trans 'Департамент с таким названием уже существует' %}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
 
         </form>
+
     </div>
+
+<script>
+
+    $('.btn_save').click(function(){ // отлавливаем нажатие
+    var department = $("#id_department_ru").val(); // извлекаем текст из id_department_ru
+    $("#id_department").val(department); //записываем текст в id_department (меняем значение value)
+    });
+
+</script>
 
 {% endblock %}

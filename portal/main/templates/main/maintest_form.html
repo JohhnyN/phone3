@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+
+{% block content %}
+
+<div class="container">
+
+
+    <div class="container-form mt-5">
+
+        <form class="create-form" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- title -->
+            <div class="row mb-4 d-none">
+                <label class="col-sm-2 col-form-label">Главный * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="title" class="form-control" maxlength="255" placeholder=""
+                           id="id_title" value="{{maintest.title}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- title_ru -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Главный_ru * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="title_ru" class="form-control" maxlength="255" placeholder=""
+                           id="id_title_ru" value="{{maintest.title_ru}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- title_kk -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Главный_kk * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="title_kk" class="form-control" maxlength="255" placeholder=""
+                           id="id_title_kk" value="{{maintest.title_kk}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- Submit btn -->
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn btn-warning w-100 me-2" href="{% url 'maintest' %}">{% trans 'Отменить' %}</a>
+                </div>
+                {% if form.title.value %}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100 btn_save">{% trans 'Изменить' %}</button>
+                </div>
+                {% else%}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100 btn_save">{% trans 'Добавить' %}</button>
+                </div>
+                {% endif %}
+            </div>
+
+
+        </form>
+    </div>
+
+
+
+</div>
+
+<script>
+    $('.btn_save').click(function(){ // отлавливаем нажатие
+     var id_title_ru = $("#id_title_ru").val(); // извлекаем текст из id_title_ru
+    $("#id_title").val(id_title_ru); //записываем текст в id_title (меняем значение value)
+});
+</script>
+
+{% endblock content %}

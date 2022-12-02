@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
-{% block title %}Вход{% endblock %}
+{% block title %}{% trans 'Вход' %}{% endblock %}
 
 {% block content %}
 
 <div class="container mt-5">
     <div class="p-5 mb-4 bg-light rounded-3 center">
-        <h1 class="d-flex justify-content-center">Страница входа</h1>
-        <p class="d-flex justify-content-center lead">Введите логин и пароль</p>
+        <h1 class="d-flex justify-content-center">{% trans 'Страница входа' %}</h1>
+        <p class="d-flex justify-content-center lead">{% trans 'Введите логин и пароль' %}</p>
     </div>
 
 
@@ -46,14 +47,14 @@
 
             <div class="row mb-4">
 
-                <label class="col-sm-2 col-form-label">Логин :</label>
+                <label class="col-sm-2 col-form-label">{% trans 'Логин :' %}</label>
                 <div class="col-10 mb-4">
                     <div class="input-group">
                         <input type="text" class="form-control" name="username">
                     </div>
                 </div>
 
-                <label class="col-sm-2 col-form-label">Пароль :</label>
+                <label class="col-sm-2 col-form-label">{% trans 'Пароль :' %}</label>
                 <div class="col-10">
                     <div class="input-group">
                         <input type="password" class="form-control" name="password">
@@ -63,13 +64,13 @@
             </div>
 
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-secondary">Добавить</button>
+                <button type="submit" class="btn btn-secondary">{% trans 'Войти' %}</button>
             </div>
 
             {% if error %}
 
             <div class="alert alert-danger alert-dismissible fade show mt-2">
-                <strong>Логин или пароль неверны!</strong>
+                <strong>{% trans 'Логин или пароль неверны!' %}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
 

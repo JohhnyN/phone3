@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block title %}{% trans 'Главный тест' %}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <h1 class="d-flex justify-content-center">{% trans 'Главный тест' %}</h1>
+    </div>
+
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" id="message">
+        <div class="modal-header">
+            <h5 class="modal-title">{{ message }}</h5>
+            <button type="button" id="close" class="btn-close" onClick=»closeIt()"></button>
+        </div>
+    </div>
+
+    {% endfor %}
+    {% endif %}
+
+
+    <div class="d-flex justify-content-end mb-3">
+        <a class="btn btn-sm btn-primary" href="{% url 'maintest_add' %}"><i class="bi bi-person-plus me-1"></i>{% trans 'Добавить главный тест' %}</a>
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover text-center">
+            <thead class="table-primary">
+            <tr>
+                <th>{% trans 'ru' %}</th>
+                <th>{% trans 'kk' %}</th>
+                {% if perms.phonebook.change_employees or perms.main.delete_maintest %}
+                <th></th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for m in maintest %}
+            <tr>
+                <td>{{ m.title_ru }}</td>
+                <td>{{ m.title_kk }}</td>
+
+                <td>
+                    {% if perms.phonebook.change_employees %}
+                    <a class="btn btn-sm btn-warning mb-2 w-100" href="{% url 'maintest_update' m.id %}">{% trans 'Изменить' %}</a>
+                    {% endif %}
+                    {% if perms.phonebook.delete_employees %}
+                    <a class="btn btn-sm btn-danger w-100" href="{% url 'maintest_delete' m.id %}">{% trans 'Удалить' %}</a>
+                    {% endif %}
+                </td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>
+
+<script>
+     const message = document.getElementById("message");
+     const btn = document.getElementById("close");
+     btn.onclick = function () {
+        message.style.display = "none";
+        };
+
+</script>
+
+{% endblock %}
+
+
+

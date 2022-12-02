@@ -1,5 +1,4 @@
 {% load i18n static %}
-
 {% now "Y-m-d" as today_str %}
 
 <!DOCTYPE html>
@@ -13,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% url 'javascript-catalog' %}"></script>
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
@@ -33,25 +33,14 @@
                     <a class="navbar-brand" href="{% url 'home' %}"><img id="logo" src="{% static 'img/logo3.png' %}" alt=""/></a>
                 </div>
 
-                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-  <input name="next" type="hidden" value="{{ redirect_to }}">
-  {% get_current_language as LANGUAGE_CODE %}
-  {% get_available_languages as LANGUAGES %}
-  {% get_language_info_list for LANGUAGES as languages %}
-  {% for language in languages %}
-    <button name="language" value="{{ language.code }}" type="submit">{{ language.code }}</button>
-  {% endfor %}
-</form>
-
-
-
                 <div class="d-flex">
                     <ul class="navbar-right">
-                        <li><a href="#">Руский</a></li>
-                        <li><a href="#">Казахский</a></li>
-
-
-
+                        {% get_current_language as CURRENT_LANGUAGE %}
+                        {% get_available_languages as AVAILABLE_LANGUAGES %}
+                        {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <li><a href="/{{ language.code }}/">{{ language.name_local }}</a></li>
+                        {% endfor %}
                     </ul>
                     <ul class="social-media">
                         <li><a href="https://www.instagram.com/kazmedia_ortalygy/" target="blank"><i class="bi bi-instagram"></i></a></li>
@@ -59,37 +48,37 @@
                         <li><a href="https://www.youtube.com/channel/UCMYPIaprCxS51FRg-v3keCg" target="blank"><i class="bi bi-youtube"></i> </a></li>
                     </ul>
                 </div>
+
             </div>
 
             <div class="d-flex navbar-bottom-menu">
                 <div class="navbar-collapse justify-content-center w-100">
                     <ul class="navbar-nav d-lg-flex justify-content-between align-items-center">
                         <li class="nav-item active"><a class="nav-link active" href="{% url 'home' %}"><i
-                                class="bi bi-house-door me-1"></i>Home</a></li>
+                                class="bi bi-house-door me-1"></i>{% trans ' Главная' %}</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{% url 'phonebook' %}"><i
-                                class="bi bi-book me-1"></i>Phonebook</a></li>
+                                class="bi bi-book me-1"></i>{% trans 'Телефонная книга' %}</a></li>
 
                         {% if perms.main.add_birthday or perms.main.change_birthday or perms.main.delete_birthday %}
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'birthday' %}"><i class="bi bi-window me-1"></i>Дни рождения</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'birthday' %}"><i class="bi bi-window me-1"></i>{% trans 'Дни рождения' %}</a></li>
                         {% endif %}
 
                         {% if perms.phonebook.add_department or perms.phonebook.change_department or perms.phonebook.delete_department %}
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'departments' %}"><i class="bi bi-window me-1"></i>Департаменты</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'departments' %}"><i class="bi bi-window me-1"></i>{% trans 'Департаменты' %}</a></li>
                         {% endif %}
 
                         {% if perms.phonebook.add_division or perms.phonebook.change_division or perms.phonebook.delete_division %}
                         <li class="nav-item"><a class="nav-link active" href="{% url 'divisions' %}"><i
-                                class="bi bi-window-dock me-1"></i>Отделы</a></li>
+                                class="bi bi-window-dock me-1"></i>{% trans 'Отделы' %}</a></li>
                         {% endif %}
-                    </ul>
                 </div>
 
                 <div class="navbar-collapse justify-content-end flex-shrink-0">
                     <ul class="navbar-nav d-lg-flex justify-content-end align-items-end">
                         {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Выход | {{ user.get_username }}</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">{% trans 'Выход' %} | {{ user.get_username }}</a></li>
                         {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">{% trans 'Вход' %}</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -99,46 +88,9 @@
     </div>
 </header>
 
-<script>
-   var timeNode = document.getElementById('time');
-   var dateNode = document.getElementById('date');
 
-   function getCurrentTimeString() {
-      return new Date().toTimeString().replace(/ .*/, '');
-   }
+<script src="{% static 'js/date.js' %}"></script>
 
-   Data = new Date();
-   Year = Data.getFullYear();
-   Month = Data.getMonth();
-   Day = Data.getDate();
-
-   switch (Month)
-    {
-      case 0: fMonth="января"; break;
-      case 1: fMonth="февраля"; break;
-      case 2: fMonth="марта"; break;
-      case 3: fMonth="апреля"; break;
-      case 4: fMonth="мае"; break;
-      case 5: fMonth="июня"; break;
-      case 6: fMonth="июля"; break;
-      case 7: fMonth="августа"; break;
-      case 8: fMonth="сентября"; break;
-      case 9: fMonth="октября"; break;
-      case 10: fMonth="ноября"; break;
-      case 11: fMonth="декабря"; break;
-    }
-
-   var date = (Day + " " + fMonth + " " + Year + " года");
-
-
-   dateNode.innerHTML = date;
-
-   setInterval(
-      () => timeNode.innerHTML = getCurrentTimeString(),
-      1000
-   );
-
-</script>
 
 
 

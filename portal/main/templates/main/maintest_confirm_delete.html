@@ -7,7 +7,7 @@
 
 <div class="container">
     <div class="p-5 mb-4 bg-light rounded-3 center">
-        <h1 class="d-flex justify-content-center">{% trans 'Форма удаления дня рождения' %}</h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Форма удаления' %}</h1>
     </div>
 
     <div class="container mt-5">
@@ -17,14 +17,14 @@
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
 
-                    <h5 class="card-title">{% trans 'Вы уверены, что хотите удалить' %} <span class="fw-bold fs-4"> "{{birthday.fio}}" </span> ?</h5>
+                    <h5 class="card-title">{% trans 'Вы уверены, что хотите удалить' %} <span class="fw-bold fs-4"> "{{maintest.title}}" </span> ?</h5>
                     <p class="card-text">{% trans 'Это не действие необратимо' %}</p>
 
 
-                    <form action="{% url 'delete_birthday' birthday.id  %}" method="POST">
+                    <form action="{% url 'maintest_delete' maintest.id  %}" method="POST">
 
                         {% csrf_token %}
-                        <a class="btn btn-warning w-25 me-2" href="{% url 'birthday' %}">{% trans 'Нет' %}</a>
+                        <a class="btn btn-warning w-25 me-2" href="{% url 'maintest' %}">{% trans 'Нет' %}</a>
                         <button type="submit" class="btn btn-outline-dark w-25"><i class="bi-trash"></i>{% trans 'Удалить' %}</button>
 
                     </form>

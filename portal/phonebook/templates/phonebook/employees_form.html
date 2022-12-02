@@ -1,106 +1,239 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
 
 {% block title %}
 {% if form.fio.value %}
-Изменение сотрудника
+{% trans 'Изменение сотрудника' %}
 {% else %}
-Добавление сотрудника
+{% trans 'Добавление сотрудника' %}
 {% endif %}{% endblock %}
 
 {% block content %}
 
 <div class="container">
+
     <div class="p-5 mb-4 bg-light rounded-3 center">
+
         {% if form.fio.value %}
-        <h1 class="d-flex justify-content-center">Форма изменения сотрудника</h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Форма изменения сотрудника' %}</h1>
         {% else %}
-        <h1 class="d-flex justify-content-center">Форма добавления сотрудников</h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Форма добавления сотрудников' %}</h1>
         {% endif %}
-        <p class="d-flex justify-content-center lead">Поля отмеченные звездочкой обязательны для заполнения</p>
+        <p class="d-flex justify-content-center lead">{% trans 'Поля отмеченные звездочкой обязательны для заполнения' %}</p>
+
     </div>
 
     <div class="container-form">
 
-        <form class="needs-validation" method="POST" id="employeesForm"
-              data-division-url="{% url 'ajax_load_division' %}" novalidate>
+        <form class="needs-validation" method="POST" id="employeesForm" enctype="multipart/form-data" data-division-url="{% url 'ajax_load_division' %}" novalidate>
 
             {% csrf_token %}
 
-            {% for f in form %}
-
-                <div class="row mb-4">
-                    <label class="col-sm-2 col-form-label">{{ f.label }}{% if f.field.required %} * {% endif %} :</label>
-
-                    <div class="col-sm-10">{{ f }}</div>
-
-                    {% if f.errors %}
-
-                    <div class="alert alert-danger alert-dismissible fade show mt-2">
-                        <strong>{{f.errors}}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-
-                    {% endif %}
-
+            <!-- fio -->
+            <div class="row mb-4 d-none">
+                <label class="col-sm-2 col-form-label">Сотрудник * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="fio" class="form-control" maxlength="255" placeholder="" id="id_fio" value="{{employees.fio}}" required autofocus>
                 </div>
+            </div>
 
-            {% endfor %}
+            <!-- position -->
+            <div class="row mb-4 d-none">
+                <label class="col-sm-2 col-form-label">Должность * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="position" class="form-control" maxlength="255" placeholder="" id="id_position" value="{{employees.position}}" required autofocus>
+                </div>
+            </div>
 
+            <!-- fio_ru -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Сотрудник * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="fio_ru" class="form-control" maxlength="255" placeholder="" id="id_fio_ru" value="{{employees.fio_ru}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- fio_kk -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Қызметкер * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="fio_kk" class="form-control" maxlength="255" placeholder="" id="id_fio_kk" value="{{employees.fio_kk}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- position_ru -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Должность * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="position_ru" class="form-control" maxlength="255" placeholder="" id="id_position_ru" value="{{employees.position_ru}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- position_kk -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Лауазымы * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="position_kk" class="form-control" maxlength="255" placeholder="" id="id_position_kk" value="{{employees.position_kk}}" required autofocus>
+                </div>
+            </div>
+
+
+            <!-- department -->
+            <div class="row mb-4">
+                <label for="id_department" class="col-sm-2">{% trans 'Департамент' %} * :</label>
+                <div class="col-sm-10">
+                    <select id="id_department" class="form-select" name="department" required autofocus>
+                        {% for id, name in form.fields.department.choices %}
+                        <option value="{{ id }}" {% if form.instance.department.pk == id %} selected {% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- division -->
+            <div class="row mb-4">
+                <label for="id_division" class="col-sm-2">{% trans 'Отдел' %} * :</label>
+                <div class="col-sm-10">
+                    <select id="id_division" class="form-select" name="division">
+                        {% for id, name in form.fields.division.choices %}
+                        <option value="{{ id }}" {% if form.instance.division.pk == id %} selected {% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- email -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">{% trans 'Email' %} :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="email" class="form-control" maxlength="255" placeholder="" id="id_email" value="{% if employees.email %} {{employees.email}} {% else %} &nbsp; {% endif %}" autofocus>
+                </div>
+            </div>
+
+            <!-- cellphone -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">{% trans 'Сотовый телефон' %} :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="cellphone" class="form-control" maxlength="255" placeholder="" id="id_cellphone" value="{% if employees.cellphone %} {{employees.cellphone}} {% else %} &nbsp; {% endif %}" autofocus>
+                </div>
+            </div>
+
+            <!-- phone -->
+            <div class="row mb-4">
+                <label for="id_phone" class="col-sm-2">{% trans 'Телефон' %} * :</label>
+                <div class="col-sm-10">
+                    <select id="id_phone" class="form-select" name="phone">
+                        {% for id, name in form.fields.phone.choices %}
+                        <option value="{{ id }}" {% if form.instance.phone.pk == id %} selected {% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Photo -->
+            <div class="row mb-4">
+                <div class="form-group image-group" id="id_image_group">
+                    <img class="img-fluid image" src="{% if form.instance.photo %} {{employees.photo.url}} {% endif %}" id="id_image_display">
+                    <div class="middle">
+                        <div class="text">{% trans 'Изменить фото' %}</div>
+                    </div>
+                </div>
+                <label class="col-sm-2 col-form-label">{% trans 'Фото' %} * :</label>
+                <div class="col-sm-10">
+                    <input type="file" name="photo" id="id_image_file" accept="image/*" onchange="readURL(this)"
+                           value="{{employees.photo}}">
+                </div>
+            </div>
+
+            <!-- Submit btn -->
             <div class="row">
                 <div class="col-md-6">
-                    <a class="btn btn-warning w-100 me-2" href="{% url 'phonebook' %}">Отменить</a>
+                    <a class="btn btn-warning w-100 me-2" href="{% url 'phonebook' %}">{% trans 'Отменить' %}</a>
                 </div>
                 {% if form.fio.value %}
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-secondary w-100">Изменить</button>
+                    <button type="submit" class="btn btn-secondary w-100 btn_save">{% trans 'Изменить' %}</button>
                 </div>
                 {% else %}
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-secondary w-100">Добавить</button>
+                    <button type="submit" class="btn btn-secondary w-100 btn_save">{% trans 'Добавить' %}</button>
                 </div>
                 {% endif %}
             </div>
+
+            {% if form.errors %}
+
+            <div class="alert alert-danger alert-dismissible fade show mt-2">
+                {% if form.errors.fio %}
+                <strong>{% trans 'Сотрудник с таким ФИО уже существует' %}</strong>
+                {% else %}
+                <strong>{{ form.errors.email }}</strong>
+                <strong>{{ form.errors.cellphone }}</strong>
+                {% endif %}
+
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            {% endif %}
 
         </form>
 
     </div>
 
-    <!-- список отделов -->
-    <script>
-    $("#id_department").change(function () {
-      var url = $("#employeesForm").attr("data-division-url");
-      var departmentId = $(this).val();
+<!-- список отделов -->
 
-      $.ajax({
-        url: url,
-        data: {
-          'department': departmentId
-        },
-        success: function (data) {
-          $("#id_division").html(data);
+<script>
+
+    departmentId = document.getElementById("id_department").value;
+    if (departmentId) {
+        var url = $("#employeesForm").attr("data-division-url");
+        $.ajax({
+            url: url,
+            data: {
+                'department': departmentId
+                },
+            success: function (data) {
+                $("#id_division").html(data);
+                }
+            });
         }
-      });
 
-    });
 
-    </script>
+    $("#id_department").change(function () {
+        var url = $("#employeesForm").attr("data-division-url");
+        var departmentId = $(this).val();
 
-    <!-- ошибки валидации -->
-    <script>
-        // Self-executing function
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
+        $.ajax({
+            url: url,
+            data: {
+                'department': departmentId
+                },
+            success: function (data) {
+                $("#id_division").html(data);
+                }
+            });
+        });
 
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
+
+</script>
+
+<!-- ошибки валидации -->
+
+<script>
+    // Self-executing function
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
                         }
                         form.classList.add('was-validated');
                     }, false);
@@ -108,6 +241,40 @@
             }, false);
         })();
 
-    </script>
+</script>
+
+
+<!-- ввод в скрытые поля -->
+
+<script>
+
+    $('.btn_save').click(function(){ // отлавливаем нажатие
+    var id_fio = $("#id_fio_ru").val(); // извлекаем текст из fio_ru
+    var id_position_ru = $("#id_position_ru").val(); // извлекаем текст из id_position
+    $("#id_fio").val(id_fio); //записываем текст в id_fio (меняем значение value)
+    $("#id_position").val(id_position_ru); //записываем текст в id_position (меняем значение value)
+    });
+
+</script>
+
+<!-- ввод изображения (красивый) -->
+
+<script type="text/javascript">
+	document.getElementById('id_image_group').onclick = function(event){
+    	document.getElementById('id_image_file').click();
+    };
+
+	function readURL(input){
+		var reader = new FileReader();
+		reader.onload = function (e) {
+            $('#id_image_display')
+                .attr('src', e.target.result)
+        };
+		reader.readAsDataURL(input.files[0]);
+	}
+
+</script>
+
 </div>
+
 {% endblock %}

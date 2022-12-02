@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
 {% block title %}
 {% if form.fio.value %}
-Изменение дня рождения
+{% trans 'Изменение дня рождения'%}
 {% else %}
-Добавление дня рождения
+{% trans 'Добавление дня рождения' %}
 {% endif %}
 {% endblock %}
 
@@ -15,11 +16,11 @@
     <div class="p-5 mb-4 bg-light rounded-3 center">
 
         {% if form.fio.value %}
-        <h1 class="d-flex justify-content-center">Форма изменения дня рождения </h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Форма изменения дня рождения' %}</h1>
         {% else %}
-        <h1 class="d-flex justify-content-center">Форма добавления дня рождения </h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Форма добавления дня рождения' %}</h1>
         {% endif %}
-        <p class="d-flex justify-content-center lead">Поля отмеченные звездочкой обязательны для заполнения</p>
+        <p class="d-flex justify-content-center lead">{% trans 'Поля отмеченные звездочкой обязательны для заполнения' %}</p>
     </div>
 
     <div class="container-form mt-5">
@@ -33,7 +34,16 @@
                 <label class="col-sm-2 col-form-label">Сотрудник * :</label>
                 <div class="col-sm-10">
                     <input type="text" name="fio" class="form-control" maxlength="255" placeholder="Введите ФИО сотрудника"
-                           id="id_fio" value="{{birthday.fio}}" required autofocus>
+                           id="fio" value="{{birthday.fio}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- FIO -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Қызметкер * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="fio_kk" class="form-control" maxlength="255" placeholder="Қызметкердің атын енгізіңіз"
+                           id="fio_kk" value="{{birthday.fio_kk}}" required autofocus>
                 </div>
             </div>
 
@@ -41,16 +51,25 @@
             <div class="row mb-4">
                 <label class="col-sm-2 col-form-label">Должность * :</label>
                 <div class="col-sm-10">
-                            <textarea class="form-control" rows="2" type="text" name="position" id="id_position"
-                                      placeholder="Введите должность сотрудника" required>{{birthday.position}}</textarea>
+                            <textarea class="form-control" rows="2" type="text" name="position" id="position"
+                                      placeholder="{% trans 'Введите должность сотрудника' %}" required>{{birthday.position}}</textarea>
+                </div>
+            </div>
+
+            <!-- Position -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Қызмет атауы * :</label>
+                <div class="col-sm-10">
+                            <textarea class="form-control" rows="2" type="text" name="position_kk" id="position_kk"
+                                      placeholder="Қызметкердің орнын енгізіңіз" required>{{birthday.position_kk}}</textarea>
                 </div>
             </div>
 
             <!-- Date -->
             <div class="row mb-4">
-                <label class="col-sm-2 col-form-label">День рождения * :</label>
+                <label class="col-sm-2 col-form-label">{% trans 'День рождения' %} * :</label>
                 <div class="col-sm-2">
-                    <input type="date" name="date" class="form-control" id="datepicker" placeholder="Дата рождения"
+                    <input type="date" name="date" class="form-control" id="datepicker" placeholder="{% trans 'Дата рождения' %}"
                            value="{{birthday.date|date:'Y-m-d'}}" required autofocus>
                 </div>
             </div>
@@ -60,10 +79,10 @@
                 <div class="form-group image-group" id="id_image_group">
                     <img class="img-fluid image" src="{{birthday.photo.url}}" id="id_image_display">
                     <div class="middle">
-                        <div class="text">Изменить фото</div>
+                        <div class="text">{% trans 'Изменить фото' %}</div>
                     </div>
                 </div>
-                <label class="col-sm-2 col-form-label">Фото * :</label>
+                <label class="col-sm-2 col-form-label">{% trans 'Фото' %} * :</label>
                 <div class="col-sm-10">
                     <input type="file" name="photo" id="id_image_file" accept="image/*" onchange="readURL(this)"
                            value="{{form.initial.photo.url}}">
@@ -73,20 +92,24 @@
             <!-- Submit btn -->
             <div class="row">
                 <div class="col-md-6">
-                    <a class="btn btn-warning w-100 me-2" href="{% url 'birthday' %}">Отменить</a>
+                    <a class="btn btn-warning w-100 me-2" href="{% url 'birthday' %}">{% trans 'Отменить' %}</a>
                 </div>
                 {% if form.fio.value %}
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-secondary w-100">Изменить</button>
+                    <button type="submit" class="btn btn-secondary w-100">{% trans 'Изменить' %}</button>
                 </div>
                 {% else%}
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-secondary w-100">Добавить</button>
+                    <button type="submit" class="btn btn-secondary w-100">{% trans 'Добавить' %}</button>
                 </div>
                 {% endif %}
             </div>
+
+
         </form>
     </div>
+
+
 
 </div>
 

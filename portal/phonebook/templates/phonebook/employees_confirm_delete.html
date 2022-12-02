@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
-{% block title %}Удаление сотрудника{% endblock %}
+{% block title %}{% trans 'Удаление сотрудника' %}{% endblock %}
 
 {% block content %}
 
 <div class="container">
     <div class="p-5 mb-4 bg-light rounded-3">
-        <h1 class="d-flex justify-content-center">Сотрудники</h1>
-        <p class="d-flex justify-content-center lead">Удаление сотрудника</p>
+        <h1 class="d-flex justify-content-center">{% trans 'Сотрудники' %}</h1>
+        <p class="d-flex justify-content-center lead">{% trans 'Удаление сотрудника' %}</p>
     </div>
 
     <div class="container mt-5">
@@ -16,25 +17,26 @@
 
 
             <div class="card text-center text-white bg-danger mb-4">
+
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы уверены, что хотите удалить <span class="fw-bold fs-4">"{{ employees }}"</span> ?</h5>
-                    <p class="card-text">Это не действие необратимо.</p>
+                    <h5 class="card-title">{% trans 'Вы уверены, что хотите удалить' %}<span class="fw-bold fs-4">"{{ employees }}"</span> ?</h5>
+                    <p class="card-text">{% trans 'Это не действие необратимо' %}</p>
 
-                    <form action="{% url 'delete_employees' employees.id  %}" method="POST">
+                    <form action="{% url 'employees_delete' employees.id  %}" method="POST">
 
                         {% csrf_token %}
-                        <a class="btn btn-warning w-25 me-2" href="{% url 'phonebook' %}">Нет</a>
-                        <button type="submit" class="btn btn-outline-dark w-25"><i class="bi-trash"></i>Удалить</button>
+
+                        <a class="btn btn-warning w-25 me-2" href="{% url 'phonebook' %}">{% trans 'Нет' %}</a>
+                        <button type="submit" class="btn btn-outline-dark w-25"><i class="bi-trash"></i>{% trans 'Удалить' %}</button>
 
                     </form>
                 </div>
+
             </div>
 
-
-
-
         </div>
+
     </div>
 
 </div>

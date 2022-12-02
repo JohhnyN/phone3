@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+
+{% block content %}
+
+<div class="container">
+
+    <div class="p-5 mb-4 bg-light rounded-3 center">
+
+        {% if form.test.value %}
+        <h1 class="d-flex justify-content-center">{% trans 'Форма изменения дочерних тестов' %}</h1>
+        {% else %}
+        <h1 class="d-flex justify-content-center">{% trans 'Форма добавление дочерних тестов' %}</h1>
+        {% endif %}
+        <p class="d-flex justify-content-center lead">{% trans 'Поля отмеченные звездочкой обязательны для заполнения' %}</p>
+    </div>
+
+
+    <div class="container-form mt-5">
+
+        <form class="create-form" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+
+            <!-- test -->
+            <div class="row mb-4 d-none">
+                <label class="col-sm-2 col-form-label">Второстепенный * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="test" class="form-control" maxlength="255" placeholder=""
+                           id="id_test" value="{{parenttest.test}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- test_ru -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Второстепенный_ru * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="test_ru" class="form-control" maxlength="255" placeholder=""
+                           id="id_test_ru" value="{{parenttest.test_ru}}" required autofocus>
+                </div>
+            </div>
+
+            <!-- test_kk -->
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Второстепенный_kk * :</label>
+                <div class="col-sm-10">
+                    <input type="text" name="test_kk" class="form-control" maxlength="255" placeholder=""
+                           id="id_test_kk" value="{{parenttest.test_kk}}" required autofocus>
+                </div>
+            </div>
+
+             <!-- title -->
+            <div class="row mb-4 d-none">
+                <label for="title" class="col-sm-2">Главный * :</label>
+                <div class="col-sm-10">
+                    <select id="title" class="form-select" name="title">
+                        {% for id, name in form.fields.title.choices %}
+                        <option value="{{ id }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            {% get_current_language as CURRENT_LANGUAGE %}
+            {% if CURRENT_LANGUAGE == 'ru' %}
+
+            {% if form.fields.title_ru.choices %}
+            {{ form.fields.title }}
+            да
+            {% endif %}
+
+            <!-- title_ru -->
+                <div class="row mb-4">
+                    <label for="title_ru" class="col-sm-2">Главный_ru * :</label>
+                    <div class="col-sm-10">
+                        <select id="title_ru" class="form-select" name="title_ru">
+                            {% for id, name in form.fields.title_ru.choices %}
+                            <option value="{{ id }}" {% if form.instance.title_ru.pk == id %} selected {% endif %} >{{ name }}</option>
+
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+             <!-- title_kk -->
+                <div class="row mb-4 d-none">
+                    <label for="title_kk" class="col-sm-2">Главный_kk * :</label>
+                    <div class="col-sm-10">
+                        <select id="title_kk" class="form-select" name="title_kk">
+                            {% for id, name in form.fields.title_kk.choices %}
+                            <option value="{{ id }}">{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            {% else %}
+
+            <!-- title_ru -->
+                <div class="row mb-4 d-none">
+                    <label for="title_ru" class="col-sm-2">Главный_ru * :</label>
+                    <div class="col-sm-10">
+                        <select id="title_ru" class="form-select" name="title_ru">
+                            {% for id, name in form.fields.title_ru.choices %}
+                            <option value="{{ id }}">{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            <!-- title_kk -->
+                <div class="row mb-4">
+                    <label for="title_kk" class="col-sm-2">Главный_kk * :</label>
+                    <div class="col-sm-10">
+                        <select id="title_kk" class="form-select" name="title_kk">
+                            {% for id, name in form.fields.title_kk.choices %}
+                            <option value="{{ id }}" {% if form.instance.title_kk.pk == id %} selected {% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            {% endif %}
+
+
+            <!-- Submit btn -->
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn btn-warning w-100 me-2" href="{% url 'parenttest' %}">{% trans 'Отменить' %}</a>
+                </div>
+                {% if form.test.value %}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100 btn_save">{% trans 'Изменить' %}</button>
+                </div>
+                {% else%}
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary w-100 btn_save">{% trans 'Добавить' %}</button>
+                </div>
+                {% endif %}
+            </div>
+
+             {% if form.errors %}
+
+                    <div class="alert alert-danger alert-dismissible fade show mt-2">
+                        <strong>{{form.errors}}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+
+                    {% endif %}
+
+
+        </form>
+    </div>
+
+
+</div>
+
+<script>
+
+    $('.btn_save').click(function(){ // отлавливаем нажатие
+     var id_test_ru = $("#id_test_ru").val(); // извлекаем текст из title
+    $("#id_test").val(id_test_ru); //записываем текст в title_ru (меняем значение value)
+});
+
+</script>
+
+<script>
+
+    title = document.getElementById("title_ru").value;
+    if (title) {
+        $("#title").val(title); //записываем текст в title (меняем значение value)
+        $("#title_kk").val(title); //записываем текст в title (меняем значение value)
+        }
+
+    title = document.getElementById("title_kk").value;
+    if (title) {
+        $("#title").val(title); //записываем текст в title (меняем значение value)
+        $("#title_ru").val(title); //записываем текст в title (меняем значение value)
+        }
+
+
+    $("#title_ru").change(function(){
+        var title = $("#title_ru").val(); // извлекаем текст из title_ru
+        $("#title").val(title); //записываем текст в title (меняем значение value)
+        $("#title_kk").val(title); //записываем текст в title (меняем значение value)
+        console.log(title);
+    });
+    $("#title_kk").change(function(){
+        var title = $("#title_kk").val(); // извлекаем текст из title_kk
+        $("#title").val(title); //записываем текст в title (меняем значение value)
+        $("#title_ru").val(title); //записываем текст в title (меняем значение value)
+        console.log(title);
+    });
+
+
+</script>
+
+
+{% endblock content %}

@@ -2,6 +2,7 @@ import datetime
 
 from django.conf.global_settings import STATIC_URL
 from django.shortcuts import redirect, render, get_object_or_404
+from modeltranslation.forms import TranslationModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, TemplateView
@@ -11,14 +12,9 @@ from html2image import Html2Image
 from .forms import *
 from django.db.models import Q
 from django.contrib.messages.views import SuccessMessageMixin
-from django.conf import settings
-
 
 from django.conf import settings
 from django.core.mail import send_mail
-
-from django.templatetags.static import static
-import pathlib
 
 
 class Index(TemplateView):
@@ -69,7 +65,6 @@ class BirthdayDelete(LoginRequiredMixin, SuccessMessageMixin,  DeleteView):
 def send_card(request):
     today = datetime.datetime.today()
     birthday = Birthday.objects.filter(date__month=today.month, date__day=today.day)
-
 
     if birthday:
         print('Отправка письма')
@@ -158,3 +153,74 @@ def article_detail(request, slug):
         'instance': instance
     }
     return render(request, 'main/article_detail.html', context)
+
+
+class MaintestListView(ListView):
+    model = MainTest
+    context_object_name = 'maintest'
+
+
+class MaintestCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = MainTest
+    form_class = MaintestForm
+    success_message = "Успешно добавлен"
+    success_url = reverse_lazy('maintest')
+
+
+class MaintestUpdateView(UpdateView):
+    model = MainTest
+    form_class = MaintestForm
+    success_message = 'Успешно обнавлен'
+    success_url = reverse_lazy('maintest')
+
+
+class MaintestDeleteview(LoginRequiredMixin, SuccessMessageMixin,  DeleteView):
+    model = MainTest
+    success_message = "Удален"
+    success_url = reverse_lazy('maintest')
+
+
+class ParenttestListView(ListView):
+    model = ParentTest
+    context_object_name = 'parenttest'
+
+
+class ParenttestCreateView(CreateView):
+    model = ParentTest
+    form_class = ParenttestForm
+    success_message = "Успешно добавлен"
+    success_url = reverse_lazy('parenttest')
+
+    def form_valid(self, form):
+        model = form.save(commit=False)
+        print(form.cleaned_data)
+        print(model.title.id)
+        return super(ParenttestCreateView, self).form_valid(form)
+
+
+class ParenttestUpdateView(UpdateView):
+    model = ParentTest
+    form_class = ParenttestForm
+    success_message = 'Успешно обнавлен'
+    success_url = reverse_lazy('parenttest')
+
+    def form_valid(self, form):
+        model = form.save(commit=False)
+        print(form.cleaned_data)
+        print('title - ' + model.title.id)
+        print(model.title_ru.id)
+        print(model.title_kk.id)
+        return super(ParenttestCreateView, self).form_valid(form)
+
+
+class ParenttestDeleteview(LoginRequiredMixin, SuccessMessageMixin,  DeleteView):
+    model = ParentTest
+    success_message = "Удален"
+    success_url = reverse_lazy('parenttest')
+
+
+class ParenttestUpdateView(UpdateView):
+    model = ParentTest
+    form_class = ParenttestForm
+    success_message = 'Успешно обнавлен'
+    success_url = reverse_lazy('parenttest')

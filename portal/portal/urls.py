@@ -29,10 +29,8 @@ urlpatterns += i18n_patterns(
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('i18n/', include('django.conf.urls.i18n')),
     path('', include('main.urls')),
-    path('main/', include('main.urls')),
     path('phonebook/', include('phonebook.urls')),
     path('accounts/', include('accounts.urls')),
-    prefix_default_language=False
 )
 
 if settings.DEBUG:

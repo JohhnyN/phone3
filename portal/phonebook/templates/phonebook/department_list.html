@@ -1,81 +1,91 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
-{% block title %}Департаменты{% endblock %}
+{% block title %}{% trans 'Департаменты' %}{% endblock %}
 
 {% block content %}
 
 <div class="container">
     <div class="p-5 mb-4 bg-light rounded-3 ">
-        <h1 class="d-flex justify-content-center">Департаменты</h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Департаменты' %}</h1>
     </div>
 
     <form action="" method="get" class="">
         <div class="form-control input-group mb-5">
-            <input type="text" class="form-control form-control-lg" placeholder="Поиск" name="q">
-            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Поиск</button>
+            <input type="text" class="form-control form-control-lg" placeholder="{% trans 'Поиск' %}" name="q">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> {% trans 'Поиск' %}</button>
         </div>
     </form>
 
-     {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" id="message">
-                <div class="modal-header" >
-                    <h5 class="modal-title">{{ message }}</h5>
-                    <button type="button" id="close" class="btn-close" onClick=»closeIt()"></button>
-                </div>
-            </div>
+    {% if messages %}
+    {% for message in messages %}
 
-        {% endfor %}
-    {% endif  %}
+    <div class="alert alert-{{ message.tags }}" id="message">
+        <div class="modal-header">
+            <h5 class="modal-title">{{ message }}</h5>
+            <button type="button" id="close" class="btn-close" onClick=»closeIt()"></button>
+        </div>
+    </div>
+
+    {% endfor %}
+    {% endif %}
 
     {% if perms.phonebook.add_department %}
     <div class="d-flex justify-content-end mb-3">
-         <a class="btn btn-sm btn-primary" href="{% url 'department_add' %}">Добавить департамент</a>
+        <a class="btn btn-sm btn-primary" href="{% url 'department_add' %}">{% trans 'Добавить департамент' %}</a>
     </div>
     {% endif %}
 
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
             <thead class="table-primary">
-            <tr>
-                <th>#</th>
-                <th>Департамент</th>
+                <tr>
+                    <th>#</th>
+                    <th>Департамент</th>
+                    <th>Департаменті</th>
 
-                {% if perms.phonebook.change_department or perms.phonebook.delete_department %}<th style="width: 15%"></th>{%endif%}
+                    {% if perms.phonebook.change_department or perms.phonebook.delete_department %}
+                    <th style="width: 15%"></th>
+                    {%endif%}
 
-            </tr>
+                </tr>
             </thead>
+
             <tbody>
             {% for department in departments %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ department.department }}</td>
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ department.department_ru }}</td>
+                    <td>{{ department.department_kk }}</td>
 
-                {% if perms.phonebook.change_department or perms.phonebook.delete_department %}
-                <td>
-                    {% if perms.phonebook.change_department %}
-                    <a class="btn btn-sm btn-warning" href="{% url 'update_department' department.id %}">Изменить</a>
+                    {% if perms.phonebook.change_department or perms.phonebook.delete_department %}
+                    <td>
+                        {% if perms.phonebook.change_department %}
+                        <a class="btn btn-sm btn-warning" href="{% url 'department_update' department.id %}">{% trans 'Изменить' %}</a>
+                        {% endif %}
+                        {% if perms.phonebook.delete_department %}
+                        <a class="btn btn-sm btn-danger" href="{% url 'department_delete' department.id %}">{% trans 'Удалить' %}</a>
+                        {% endif %}
+                    </td>
                     {% endif %}
-                    {% if perms.phonebook.delete_department %}
-                    <a class="btn btn-sm btn-danger" href="{% url 'delete_department' department.id %}">Удалить</a>
-                    {% endif %}
-                </td>
-                {% endif %}
 
-            </tr>
+                </tr>
             {% endfor %}
             </tbody>
+
         </table>
 
     </div>
 </div>
 
 <script>
+
      const message = document.getElementById("message");
      const btn = document.getElementById("close");
      btn.onclick = function () {
         message.style.display = "none";
         };
+
 </script>
 
 {% endblock %}

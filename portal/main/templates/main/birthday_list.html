@@ -1,25 +1,26 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
-{% block title %}Дни рождения{% endblock %}
+{% block title %}{% trans 'Дни рождения' %}{% endblock %}
 
 {% block content %}
 
 <div class="container">
 
     <div class="p-5 mb-4 bg-light rounded-3 ">
-        <h1 class="d-flex justify-content-center">Дни рождения</h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Дни рождения' %}</h1>
     </div>
 
     <form action="" method="get" class="">
         <div class="form-control input-group mb-5">
-            <input type="text" class="form-control form-control-lg" placeholder="Поиск" name="q">
-            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Поиск</button>
+            <input type="text" class="form-control form-control-lg" placeholder="{% trans 'Поиск' %}" name="q">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>{% trans ' Поиск' %}</button>
         </div>
     </form>
 
     {% if perms.main.add_birthday %}
     <div class="d-flex justify-content-end mb-3">
-        <a class="btn btn-sm btn-primary me-2" href="{% url 'birthday_add' %}">Добавить день рождения</a>
+        <a class="btn btn-sm btn-primary me-2" href="{% url 'birthday_add' %}">{% trans 'Добавить день рождения' %}</a>
 <!--        <a class="btn btn-sm btn-primary" href="{% url 'send' %}">Отправить письмо</a>-->
 
     </div>
@@ -54,17 +55,24 @@
                         <div class="card-button">
                             {% if perms.main.change_birthday %}
                             <a href="{% url 'update_birthday' b.id %}" class="btn btn-warning mb-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="Изменить"><i class="bi bi-pencil"></i></a>
+                               title="{% trans 'Изменить' %}"><i class="bi bi-pencil"></i></a>
                             {% endif %}
                             {% if perms.main.delete_birthday %}
                             <a href="{% url 'delete_birthday' b.id %}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="Удалить"><i class="bi bi-x"></i></a>
+                               title="{% trans 'Удалить' %}"><i class="bi bi-x"></i></a>
                             {% endif %}
                         </div>
 
-                        <div class="card-body">
-                            <h5 class="card-title">{{ b.fio }}</h5>
-                        </div>
+                        {% get_current_language as CURRENT_LANGUAGE %}
+                        {% if CURRENT_LANGUAGE == 'ru' %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ b.fio }}</h5>
+                            </div>
+                        {% else %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ b.fio_kk }}</h5>
+                            </div>
+                        {% endif %}
 
 
                     </div>
@@ -72,8 +80,13 @@
                 </div>
 
                 <div class="card-body border-top">
-                    <p class="card-text">{{ b.position }}</p>
-                    <p class="card-text">Дата рождения - {{b.date}}</p>
+                     {% get_current_language as CURRENT_LANGUAGE %}
+                     {% if CURRENT_LANGUAGE == 'ru' %}
+                        <p class="card-text">{{ b.position }}</p>
+                     {% else %}
+                        <p class="card-text">{{ b.position_kk }}</p>
+                     {% endif %}
+                    <p class="card-text">{% trans 'Дата рождения' %} - {{b.date}}</p>
                 </div>
 
             </div>

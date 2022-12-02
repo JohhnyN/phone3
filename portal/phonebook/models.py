@@ -54,6 +54,9 @@ class Employees(models.Model):
                                  blank=True, null=True)
     phone = models.ForeignKey('Phone', default='', on_delete=models.SET_DEFAULT, verbose_name='телефон',
                               null=True, blank=True)
+    photo = models.ImageField(upload_to='employees_photos', verbose_name='Фото сотрудников', blank=True)
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
 
     def __str__(self):
         return self.fio

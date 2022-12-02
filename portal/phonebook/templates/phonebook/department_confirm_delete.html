@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
-{% block title %}Удаление департамента{% endblock %}
+{% block title %}{% trans 'Удаление департамента' %}{% endblock %}
 
 {% block content %}
 
 <div class="container">
     <div class="p-5 mb-4 bg-light rounded-3 center">
-        <h1 class="d-flex justify-content-center">Департаменты</h1>
-        <p class="d-flex justify-content-center lead">Удаление департамента</p>
+        <h1 class="d-flex justify-content-center">{% trans 'Форма удаления департамента' %}</h1>
     </div>
 
     <div class="container mt-5">
@@ -18,11 +18,9 @@
 
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
-
-                    <h5 class="card-title">Вы не можете удалить <span class="fw-bold fs-4">{{department}}</span>, так как в нем существуют отделы</h5>
-                    <p class="card-text">Перед удалением департамента {{ depatment }} необходимо удалить отделы</p>
-                    <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Назад</a>
-
+                    <h5 class="card-title">{% trans 'Вы не можете удалить' %} <span class="fw-bold fs-4">{{department}}</span>, {% trans 'так как в нем существуют отделы' %}</h5>
+                    <p class="card-text">{% trans 'Перед удалением департамента' %} {{ depatment }} {% trans 'необходимо удалить отделы' %}</p>
+                    <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">{% trans 'Назад' %}</a>
                 </div>
             </div>
 
@@ -31,9 +29,9 @@
             <div class="card text-center text-white bg-danger mb-4">
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы не можете удалить <span class="fw-bold fs-4">{{department}}</span>, так как в нем есть сотрудники</h5>
-                    <p class="card-text">Перед удалением департамента {{ depatment }} необходимо удалить сотрудников</p>
-                    <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Назад</a>
+                    <h5 class="card-title">{% trans 'Вы не можете удалить' %} <span class="fw-bold fs-4">{{department}}</span>, {% trans 'так как в нем есть сотрудники' %}</h5>
+                    <p class="card-text">{% trans 'Перед удалением департамента' %} {{ depatment }} {% trans 'необходимо удалить сотрудников' %}</p>
+                    <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">{% trans 'Назад' %}</a>
 
                 </div>
             </div>
@@ -41,26 +39,30 @@
             {% else %}
 
             <div class="card text-center text-white bg-danger mb-4">
+
                 <div class="card-body">
 
-                    <h5 class="card-title">Вы уверены, что хотите удалить <span class="fw-bold fs-4"> "{{department}}" </span> ?</h5>
-                    <p class="card-text">Это не действие необратимо.</p>
+                    <h5 class="card-title">{% trans 'Вы уверены, что хотите удалить' %} <span class="fw-bold fs-4"> "{{department}}" </span> ?</h5>
+                    <p class="card-text">{% trans 'Это не действие необратимо' %}</p>
 
 
-                    <form action="{% url 'delete_department' department.id  %}" method="POST">
+                    <form action="{% url 'department_delete' department.id  %}" method="POST">
 
                         {% csrf_token %}
-                        <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">Нет</a>
-                        <button type="submit" class="btn btn-outline-dark w-25"><i class="bi-trash"></i>Удалить</button>
+
+                        <a class="btn btn-warning w-25 me-2" href="{% url 'departments' %}">{% trans 'Нет' %}</a>
+                        <button type="submit" class="btn btn-outline-dark w-25"><i class="bi-trash"></i>{% trans 'Удалить' %}</button>
 
                     </form>
+
                 </div>
+
             </div>
 
             {% endif %}
 
-
         </div>
+
     </div>
 
 </div>

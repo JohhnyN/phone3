@@ -1,28 +1,29 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
-{% block title %}Телефонная книга{% endblock %}
+{% block title %}{% trans 'Телефонная книга' %}{% endblock %}
 
 {% block content %}
 
 <div class="container">
 
-    <div class="container">
-    <a class="weatherwidget-io" href="https://forecast7.com/ru/51d1671d47/astana/" data-label_1="NUR-SULTAN" data-label_2="Погода" data-theme="original" >NUR-SULTAN Погода</a>
-    <script>
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-    </script>
-</div>
+    <div>
+        <a class="weatherwidget-io" href="https://forecast7.com/ru/51d1671d47/astana/" data-label_1="NUR-SULTAN" data-label_2="Погода" data-theme="original" >NUR-SULTAN Погода</a>
+        <script>
+                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+        </script>
+    </div>
 
 
 
     <div class="p-5 mb-4 bg-light rounded-3">
-        <h1 class="d-flex justify-content-center">Телефонная книга</h1>
+        <h1 class="d-flex justify-content-center">{% trans 'Телефонная книга' %}</h1>
     </div>
 
     <form action="" method="get" class="">
         <div class="form-control input-group mb-5">
-            <input type="text" class="form-control form-control-lg" placeholder="Поиск" name="q">
-            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Поиск</button>
+            <input type="text" class="form-control form-control-lg" placeholder="{% trans 'Поиск' %}" name="q">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> {% trans 'Поиск' %}</button>
         </div>
     </form>
 
@@ -34,30 +35,30 @@
                     <button type="button" id="close" class="btn-close" onClick=»closeIt()"></button>
                 </div>
             </div>
-
         {% endfor %}
     {% endif  %}
 
     {% if perms.phonebook.add_employees %}
     <div class="d-flex justify-content-end mb-3">
-         <a class="btn btn-sm btn-primary" href="{% url 'employees_add' %}"><i class="bi bi-person-plus me-1"></i>Добавить сотрудника</a>
+         <a class="btn btn-sm btn-primary" href="{% url 'employees_add' %}"><i class="bi bi-person-plus me-1"></i>{% trans 'Добавить сотрудника' %}</a>
     </div>
     {% endif %}
 
 
-    <a href="{% url 'download_phonebook' %}">Скачать телефонный справочник</a>
+    <a href="{% url 'download_phonebook' %}">{% trans 'Скачать телефонный справочник' %}</a>
 
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover text-center">
             <thead class="table-primary">
             <tr>
-                <th>ФИО</th>
-                <th>Должность</th>
-                <th>Департамент</th>
-                <th>Отдел</th>
-                <th>Email</th>
-                <th>Сотовый телефон</th>
-                <th>Телефон</th>
+                <th>{% trans 'ФИО' %}</th>
+                <th>{% trans 'Должность' %}</th>
+                <th>{% trans 'Департамент' %}</th>
+                <th>{% trans 'Отдел' %}</th>
+                <th>{% trans 'Email' %}</th>
+                <th>{% trans 'Сотовый телефон' %}</th>
+                <th>{% trans 'Телефон' %}</th>
+                <th>{% trans 'Фото' %}</th>
                 {% if perms.phonebook.change_employees or perms.phonebook.delete_employees %}<th></th>{% endif %}
             </tr>
             </thead>
@@ -87,13 +88,18 @@
                 {% else %}
                 <td></td>
                 {% endif %}
+                {% if employ.photo %}
+                <td class="table-phone"><img src="{{ employ.photo.url }}" class="card-img" alt="..."></td>
+                {% else %}
+                <td></td>
+                {% endif %}
                 {% if perms.phonebook.change_employees or perms.phonebook.delete_employees %}
                 <td>
                     {% if perms.phonebook.change_employees %}
-                    <a class="btn btn-sm btn-warning mb-2 w-100" href="{% url 'update_employees' employ.id %}">Изменить</a>
+                    <a class="btn btn-sm btn-warning mb-2 w-100" href="{% url 'employees_update' employ.id %}">{% trans 'Изменить' %}</a>
                     {% endif %}
                     {% if perms.phonebook.delete_employees %}
-                    <a class="btn btn-sm btn-danger w-100" href="{% url 'delete_employees' employ.id %}">Удалить</a>
+                    <a class="btn btn-sm btn-danger w-100" href="{% url 'employees_delete' employ.id %}">{% trans 'Удалить' %}</a>
                     {% endif %}
                 </td>
                 {% endif %}
@@ -115,7 +121,7 @@
         };
 </script>
 
-    {% endblock %}
+{% endblock %}
 
 
 

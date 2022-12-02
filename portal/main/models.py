@@ -5,8 +5,10 @@ from django.contrib.auth.models import User, Group
 
 
 class Birthday(models.Model):
-    fio = models.CharField(max_length=255, unique=True, verbose_name=_('Сотрудник'))
-    position = models.CharField(max_length=255, verbose_name=_('Должность'))
+    fio = models.CharField(max_length=255, unique=True, verbose_name='Сотрудник')
+    fio_kk = models.CharField(max_length=255, unique=True, verbose_name='Қызметкер')
+    position = models.CharField(max_length=255, verbose_name='Должность')
+    position_kk = models.CharField(max_length=255, verbose_name='Қызмет атауы')
     date = models.DateField(verbose_name='День рождения')
     photo = models.ImageField(upload_to='birthday_photos', verbose_name='Фото')
 
@@ -39,5 +41,16 @@ class News(models.Model):
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'slug': self.slug})
 
+
+class MainTest(models.Model):
+    title = models.CharField(max_length=255, unique=True, verbose_name=_('Родительский'))
+
+    def __str__(self):
+        return self.title
+
+
+class ParentTest(models.Model):
+    title = models.ForeignKey(MainTest, on_delete=models.CASCADE, verbose_name=_('Главный'))
+    test = models.CharField(max_length=255, verbose_name=_('Дочерний'))
 
 

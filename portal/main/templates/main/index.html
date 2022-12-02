@@ -6,12 +6,15 @@
 {% block content %}
 
 <div class="container">
-    <a class="weatherwidget-io" href="https://forecast7.com/ru/51d1671d47/astana/" data-label_1="NUR-SULTAN" data-label_2="Погода" data-theme="original" >NUR-SULTAN Погода</a>
+
+    <a class="weatherwidget-io" href="https://forecast7.com/ru/51d1671d47/astana/" data-label_1="Астана"
+       data-label_2="{% trans 'Погода' %}" data-font="Roboto" data-icons="Climacons Animated" data-theme="original"></a>
     <script>
         !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-    </script>
-</div>
 
+    </script>
+
+</div>
 
 
 <div class="container">
@@ -24,7 +27,7 @@
 
     <div class="">
         <div class="d-flex p-4 justify-content-around">
-            
+
             <a class="card-link" href="https://documentolog.kmo.kz/" target="blank">
                 <div class="card p-2 me-4 service_link">
                     <div class="row no-gutters align-items-center">
@@ -32,8 +35,8 @@
                             <img src="{% static 'img/documentolog.png' %}" width="60" height="80" alt="Documentolog">
                         </div>
                         <div class="col-md-8 align-items-center">
-                            <h5>Документолог</h5>
-                            <p>Служебная записка</p>
+                            <h5>{% trans 'Документолог' %}</h5>
+                            <p>{% trans 'Служебная записка' %}</p>
                         </div>
                     </div>
                 </div>
@@ -46,8 +49,8 @@
                             <img src="{% static 'img/HD.png' %}" width="60" height="80" alt="HelpDesk">
                         </div>
                         <div class="col-md-8">
-                            <h5>HELP DESK</h5>
-                            <p>Подать заявку</p>
+                            <h5>{% trans 'HELP DESK' %}</h5>
+                            <p>{% trans 'Подать заявку' %}</p>
                         </div>
                     </div>
                 </div>
@@ -60,13 +63,12 @@
                             <img src="{% static 'img/SKUD.png' %}" width="60" height="80" alt="SKUD">
                         </div>
                         <div class="col-md-8">
-                            <h5>СКУД</h5>
-                            <p>Войти в СКУД</p>
+                            <h5>{% trans 'СКУД' %}</h5>
+                            <p>{% trans 'Войти в СКУД' %}</p>
                         </div>
                     </div>
                 </div>
             </a>
-
 
 
         </div>
@@ -78,6 +80,9 @@
 
         {% for b in birthday %}
 
+        {% get_current_language as CURRENT_LANGUAGE %}
+        {% if CURRENT_LANGUAGE == 'ru' %}
+
         <div class="col">
             <div class="card birthday">
                 <img src="{{ b.photo.url }}" class="birthday-image" alt="">
@@ -85,6 +90,18 @@
                 <p class="birthday-text">{{ b.position }}</p>
             </div>
         </div>
+
+        {% else %}
+
+        <div class="col">
+            <div class="card birthday_kz">
+                <img src="{{ b.photo.url }}" class="birthday-image" alt="">
+                <h5 class="birthday-title">{{ b.fio_kk }}</h5>
+                <p class="birthday-text">{{ b.position_kk }}</p>
+            </div>
+        </div>
+
+        {% endif %}
 
         {% endfor %}
     </div>
@@ -119,11 +136,16 @@
         </div>
     </div>
 
-
-
-
-
-
+    <!-- Currency Converter Script - EXCHANGERATEWIDGET.COM -->
+    <div style="width:198px;border:3px solid #1094A5;border-radius:5px; ">
+        <div style="text-align:center;background-color:#1094A5;font-size:13px;font-weight:bold;height:22px;"><a
+                href="" style="color:#FFFFFF;text-decoration:none;" rel="nofollow">Currency11
+            Converter</a></div>
+        <script type="text/javascript"
+                src="https://www.exchangeratewidget.com/converter.php?l=ru&f=USD&t=KZT&a=1&d=CEDFDE&n=FFFFFF&o=000000&v=3"></script>
+    </div>
+    <!-- End of Currency Converter Script -->
 
 </div>
+
 {% endblock %}
