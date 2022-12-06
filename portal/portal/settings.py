@@ -1,10 +1,14 @@
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-)$$!koglms*w+2@^ia@auv)zsmts2#8#i7xzd1k#9=ij!p_mgd'
+SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = True
 
@@ -63,9 +67,9 @@ WSGI_APPLICATION = 'portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'portal',
-        'USER': 'postgres',
-        'PASSWORD': 'fhvfy1006!!',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
         'HOST': 'localhost',
         'PORT': '',
     },
@@ -138,7 +142,7 @@ SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', '
 
 #smtp
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.kmo.kz'
-EMAIL_HOST_USER = 'nuruza'
-EMAIL_HOST_PASSWORD = 'fhvfy1006!!'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 25
